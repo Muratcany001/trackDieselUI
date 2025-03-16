@@ -8,6 +8,7 @@ import { DeletePageComponent } from './pages/delete-page/delete-page.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { UpdatePageComponent } from './pages/update-page/update-page.component';
 import { UserPageComponent } from './pages/user-page/user-page.component';
+import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 
 export const routes: Routes = [
     {path : 'login', component:LoginComponent},
@@ -18,5 +19,6 @@ export const routes: Routes = [
     {path : 'mainPage', component:MainPageComponent},
     {path : 'updatePage', component:UpdatePageComponent},
     {path : 'userPage', component:UserPageComponent},
+    {path : 'signupPage', component:SignupPageComponent},
     {path : '', redirectTo:'/login', pathMatch: 'full'}
 ];
