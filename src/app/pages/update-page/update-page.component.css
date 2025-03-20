@@ -1,0 +1,137 @@
+/* Genel Gövde ve Font Ayarları */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .container {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  /* Sol Panel Stili */
+  .side-panel {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+  }
+  
+  .side-panel h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .side-panel nav ul {
+    list-style-type: none;
+  }
+  
+  .side-panel nav ul li {
+    margin: 15px 0;
+  }
+  
+  .side-panel nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    display: block;
+    transition: color 0.3s ease;
+  }
+  
+  .side-panel nav ul li a:hover {
+    color: #3498db;
+  }
+  
+  /* Ana İçerik Alanı */
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .update-car-form {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .update-car-form h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    font-size: 1rem;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus {
+    border-color: #3498db;
+    outline: none;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.2rem;
+    color: white;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Responsive Tasarım */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .side-panel {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  
+    .main-content {
+      padding: 10px;
+    }
+  
+    .update-car-form {
+      width: 100%;
+    }
+  }
+  

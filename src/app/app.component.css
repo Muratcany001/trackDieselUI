@@ -1,0 +1,180 @@
+/* Genel Stil Ayarları */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif; /* Modern yazı tipi */
+    background-color: #f4f6f9; /* Açık gri arka plan */
+    color: #333; /* Koyu gri metin rengi */
+    overflow-x: hidden;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 100vh;
+    width: 100%;
+    padding: 30px;
+}
+
+/* Sol Panel (Yönetim Paneli) */
+.side-panel {
+    width: 250px;
+    background-color: #ffffff;
+    border-radius: 20px; /* Daha yuvarlak köşeler */
+    padding: 20px;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1); /* Daha belirgin gölge */
+    transition: box-shadow 0.3s ease; /* Hover için animasyon */
+}
+
+.side-panel:hover {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); /* Hoverda daha büyük gölge */
+}
+
+.side-panel h2 {
+    font-size: 26px;
+    color: #2980b9;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.side-panel nav ul {
+    list-style: none;
+}
+
+.side-panel nav ul li {
+    margin: 15px 0;
+}
+
+.side-panel nav ul li a {
+    text-decoration: none;
+    color: #2980b9;
+    font-size: 18px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.side-panel nav ul li a:hover {
+    color: #16a085; /* Hover rengi */
+}
+
+/* Ana İçerik */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 30px;
+}
+
+/* Plaka Girişi Alanı */
+.plate-entry {
+    width: 100%;
+    max-width: 600px;
+    height: 150px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.plate-entry:hover {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); /* Hoverda daha büyük gölge */
+}
+
+.plate-entry input {
+    width: 100%;
+    height: 45px;
+    font-size: 18px;
+    margin-bottom: 15px;
+    padding-left: 15px;
+    border-radius: 10px;
+    border: 1px solid #d5d9e0;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.plate-entry input:focus {
+    border-color: #3498db; /* Odaklanınca mavi renk */
+    box-shadow: 0 0 10px 2px rgba(52, 152, 219, 0.2);
+}
+
+#plate_search {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #d5d9e0;
+    outline: none;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#plate_search:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+#plate_search:focus {
+    outline: none;
+    box-shadow: 0 0 5px 2px rgba(52, 152, 219, 0.7);
+}
+
+/* Veritabanı Bilgisi Paneli */
+.info-panel {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 1000px;
+    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+.info-panel h3 {
+    font-size: 34px;
+    color: #2980b9;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.info-panel p {
+    font-size: 18px;
+    color: #7f8c8d;
+    line-height: 1.6;
+}
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .side-panel {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .plate-entry {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .info-panel {
+        width: 100%;
+        max-width: 100%;
+    }
+}

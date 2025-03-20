@@ -1,1 +1,97 @@
-<p>add-page works!</p>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Araç Ekle</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <!-- Ana İçerik -->
+    <div class="main-content">
+      
+      <div class="add-car-form">
+        <h2>Araç Ekle</h2>
+        
+        <!-- Araç Ekleme Formu -->
+        <form id="addCarForm">
+          <div class="form-group">
+            <label for="carName">Araç Adı</label>
+            <input type="text" id="carName" name="carName" required placeholder="Araç adını girin...">
+          </div>
+
+          <div class="form-group">
+            <label for="carModel">Model</label>
+            <input type="text" id="carModel" name="carModel" required placeholder="Araç modelini girin...">
+          </div>
+
+          <div class="form-group">
+            <label for="carAge">Yaş</label>
+            <input type="number" id="carAge" name="carAge" required placeholder="Araç yaşını girin...">
+          </div>
+
+          <div class="form-group">
+            <label for="carPlate">Plaka</label>
+            <input type="text" id="carPlate" name="carPlate" required placeholder="Araç plakası girin...">
+          </div>
+
+          <div class="form-group">
+            <label for="carEngineType">Motor Tipi</label>
+            <input type="text" id="carEngineType" name="carEngineType" required placeholder="Motor tipi girin...">
+          </div>
+
+          <!-- Arıza Geçmişi (ErrorHistory) Alanları -->
+          <h3>Arıza Geçmişi</h3>
+          <div id="errorHistoryContainer">
+            <div class="error-history-item">
+              <div class="form-group">
+                <label for="partName">Parça Adı</label>
+                <input type="text" id="partName" name="partName[]" placeholder="Parça adı girin...">
+              </div>
+              <div class="form-group">
+                <label for="description">Açıklama</label>
+                <textarea id="description" name="description[]" placeholder="Arıza açıklamasını girin..."></textarea>
+              </div>
+              <div class="form-group">
+                <label for="issueType">Arıza Tipi</label>
+                <input type="text" id="issueType" name="issueType[]" placeholder="Arıza tipi girin...">
+              </div>
+              <div class="form-group">
+                <label for="isReplaced">Parça Değiştirildi mi?</label>
+                <select id="isReplaced" name="isReplaced[]">
+                  <option value="true">Evet</option>
+                  <option value="false">Hayır</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="dateReported">Arıza Tarihi</label>
+                <input type="datetime-local" id="dateReported" name="dateReported[]" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Son Bakım Tarihi ve Değiştirilen Parçalar -->
+          <div class="form-group">
+            <label for="lastMaintenanceDate">Son Bakım Tarihi</label>
+            <input type="datetime-local" id="lastMaintenanceDate" name="lastMaintenanceDate" required>
+          </div>
+
+          <div class="form-group">
+            <label for="partsReplaced">Değiştirilen Parçalar</label>
+            <textarea id="partsReplaced" name="partsReplaced" placeholder="Değiştirilen parçaları girin..."></textarea>
+          </div>
+
+          <button type="submit" id="addCarBtn">Araç Ekle</button>
+        </form>
+        
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
