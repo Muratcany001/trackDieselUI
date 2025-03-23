@@ -19,10 +19,16 @@ body {
     height: 100vh;
     width: 100%;
     padding: 30px;
+    margin: left;
 }
 
 /* Sol Panel (Yönetim Paneli) */
 .side-panel {
+    position: fixed;
+    top: 0;
+    left: 00;
+    height: 100vh;
+
     width: 250px;
     background-color: #ffffff;
     border-radius: 20px; /* Daha yuvarlak köşeler */
@@ -38,7 +44,7 @@ body {
 .side-panel h2 {
     font-size: 26px;
     color: #2980b9;
-    margin-bottom: 20px;
+    margin-left: 20px;
     font-weight: bold;
 }
 
@@ -47,19 +53,25 @@ body {
 }
 
 .side-panel nav ul li {
-    margin: 15px 0;
+    margin: 20px 0;
 }
 
 .side-panel nav ul li a {
     text-decoration: none;
     color: #2980b9;
-    font-size: 18px;
-    font-weight: 500;
-    transition: color 0.3s ease;
+    font-size: 24px; /* Adjusted size for readability */
+    font-weight: 600; /* Make the text bold for better legibility */
+    line-height: 1.5; /* Improve line spacing */
+    padding: 10px 20px; /* Add padding for a better click area */
+    border-radius: 10px; /* Round the corners of the links for a modern look */
+    transition: all 0.3s ease; /* Smooth transitions for hover effect */
+    display: block; /* Makes the entire link clickable */
 }
 
 .side-panel nav ul li a:hover {
     color: #16a085; /* Hover rengi */
+    background-color: rgba(52,152,219,0.1);
+    transform: translateX(10px);
 }
 
 /* Ana İçerik */
@@ -113,7 +125,7 @@ body {
 #plate_search {
     width: 100%;
     padding: 12px 20px;
-    font-size: 16px;
+    font-size: 20px;
     border-radius: 8px;
     border: 1px solid #d5d9e0;
     outline: none;
@@ -165,7 +177,7 @@ body {
 
     .side-panel {
         width: 100%;
-        margin-bottom: 20px;
+        margin-left: 20px;
     }
 
     .plate-entry {

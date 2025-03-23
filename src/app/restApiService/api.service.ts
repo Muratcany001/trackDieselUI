@@ -1,38 +1,110 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, tap, throwError } from 'rxjs';
+
+interface LoginRequest {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+}
+
+interface LoginResponse {
+  token: string;
+  // diğer response alanları...
+}
+
+interface Car {
+  id?: number;
+  plate: string;
+  // diğer araç alanları...
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+  private apiUrl = "https://localhost:7029";
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  });
 
-  private apiUrl = "localhost4200";
   constructor(private http: HttpClient) { }
   
-  login(user: any): Observable<any>{
-    return this.http.post(`${this.apiUrl}/login`, user);
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Bir hata oluştu';
+    
+    if (error.status === 0) {
+      errorMessage = 'API sunucusuna bağlanılamıyor. Lütfen API\'nin çalıştığından emin olun.';
+    } else if (error.error instanceof ErrorEvent) {
+      errorMessage = `Hata: ${error.error.message}`;
+    } else {
+      errorMessage = `Hata Kodu: ${error.status}\nMesaj: ${error.message}`;
+    }
+    
+    console.error('API Hatası:', errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 
-  addCar(car:any): Observable<any>{
-    return this.http.post(`${this.apiUrl}/cars/addCar`,car);
+  login(user: { name: string, password: string }): Observable<LoginResponse> {
+    const requestBody: LoginRequest = {
+      id: 0,
+      name: user.name,
+      email: `${user.name}@example.com`,
+      password: user.password
+    };
+    
+    console.log('Login isteği gönderiliyor:', JSON.stringify(requestBody, null, 2));
+    console.log('API URL:', `${this.apiUrl}/api/auth/login`);
+    
+    return this.http.post<LoginResponse>(`${this.apiUrl}/api/auth/login`, requestBody, { 
+      headers: this.headers,
+      withCredentials: false
+    }).pipe(
+      tap(response => {
+        console.log('Login başarılı:', response);
+        if (response?.token) {
+          localStorage.setItem('token', response.token);
+        }
+      }),
+      catchError(error => {
+        console.error('Login hatası detayları:', {
+          status: error.status,
+          statusText: error.statusText,
+          error: error.error,
+          message: error.message
+        });
+        return this.handleError(error);
+      })
+    );
   }
-  getCars(): Observable<any>{
-    return this.http.get(`${this.apiUrl}/cars`)
+
+  addCar(car: Car): Observable<Car> {
+    return this.http.post<Car>(`${this.apiUrl}/cars/addCar`, car, { headers: this.headers });
   }
-  updateCar(car:any): Observable<any>{
-    return this.http.put(`${this.apiUrl}/cars/updateCar`,car);
+
+  getCars(): Observable<Car[]> {
+    return this.http.get<Car[]>(`${this.apiUrl}/cars`, { headers: this.headers });
   }
-  deleteCar(id:number):Observable<any>{
-    return this.http.delete(`${this.apiUrl}/cars/deleteCar/${id}`);
+
+  updateCar(car: Car): Observable<Car> {
+    return this.http.put<Car>(`${this.apiUrl}/cars/updateCar`, car, { headers: this.headers });
   }
-  getCarCount(): Observable<any>{
-    return this.http.get(`${this.apiUrl}/cars/deleteCar/GetCarCount`);
+
+  deleteCar(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/cars/deleteCar/${id}`, { headers: this.headers });
   }
-  getCarByPlate(plate:string): Observable<any>{
-    return this.http.get(`${this.apiUrl}/cars/getCarByPlate/${plate}`);
+
+  getCarCount(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/cars/count`, { headers: this.headers });
   }
-  getPatDemandPrediction(): Observable<any>{
-    return this.http.get(`${this.apiUrl}/part-demand-prediction`);
+
+  getCarByPlate(plate: string): Observable<Car> {
+    return this.http.get<Car>(`${this.apiUrl}/cars/plate/${plate}`, { headers: this.headers });
+  }
+
+  getAllIssues(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/cars/issues`, { headers: this.headers });
   }
 }

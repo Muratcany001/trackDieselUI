@@ -1,0 +1,77 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px; /* Slightly more rounded corners */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Softer shadow for more elegance */
+  max-width: 500px; /* Increased width for a bit more space */
+  width: 100%;
+}
+
+.main-content {
+  margin: 0 auto;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  font-size: 24px; /* Slightly larger title for better visibility */
+  margin-bottom: 20px; /* Added margin to separate the title from the form */
+}
+
+.form-group {
+  margin-bottom: 20px; /* More spacing between form groups */
+}
+
+label {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 8px; /* Increased margin for better spacing */
+  display: block;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 12px; /* More padding for a larger input area */
+  font-size: 16px; /* Increased font size for better readability */
+  border: 1px solid #ddd;
+  border-radius: 8px; /* More rounded corners */
+  transition: all 0.3s ease; /* Smooth transition for focus effect */
+}
+
+input[type="number"]:focus {
+  border-color: #3498db; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.2); /* Subtle shadow when focused */
+  outline: none; /* Remove the default focus outline */
+}
+
+button {
+  width: 100%;
+  padding: 12px; /* More padding for a better button size */
+  background-color: #486d97;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px; /* More rounded corners for the button */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Added transform for smooth scaling */
+}
+
+button:hover {
+  background-color: #c0392b;
+  transform: scale(1.05); /* Slightly scale the button when hovered */
+}
+
+button:focus {
+  outline: none; /* Remove the default focus outline */
+}

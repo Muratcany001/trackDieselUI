@@ -4,21 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Modern Açık Tema UI</title>
-  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
   <div class="container">
-
-    
-
     <!-- Ana İçerik -->
     <div class="main-content">
-      
       <!-- Plaka Girişi Alanı -->
       <div class="plate-entry">
-        <input type="text" id="plate-input" placeholder="Plaka Girin...">
-        <h3><button id="plate_search">Plaka sorgula</button></h3>
+        <form [formGroup]="loginForm" (ngSubmit)="searchPlate()">
+          <input type="text" formControlName="plateNumber" placeholder="Plaka Girin...">
+          <button type="submit">Plaka sorgula</button>
+          <div *ngIf="message" class="alert" ngClass="{'alert-succes': message.includes('bulundu'), 'alert-danger': message.includes('bulunamadı')}"></div>
+          {{message}}
+        </form>
       </div>
 
       <!-- Veritabanı Bilgisi Paneli -->
@@ -27,7 +26,6 @@
         <p>Burada veritabanından alınan bilgiler görüntülenecek.</p>
       </div>
     </div>
-
   </div>
 
 </body>

@@ -1,1 +1,15 @@
-<p>search-page works!</p>
+<div class="container">
+    <h2>Araç Listesi</h2>
+    <div *ngIf="cars && cars.length === 0">
+      <p>Henüz araç bulunmamaktadır.</p>
+    </div>
+    <div *ngIf="cars && cars.length > 0" class="car-list">
+      <div *ngFor="let car of cars" class="car-item">
+        <h3>{{ car.name }}</h3>
+        <p><strong>Plaka:</strong> {{ car.plate }}</p>
+        <p><strong>Yaş:</strong> {{ car.age }} yıl</p>
+        <p><strong>Son Bakım Tarihi:</strong> {{ car.lastMaintenanceDate | date:'dd/MM/yyyy' }}</p>
+        <button (click)="deleteCar(car.id)">Araç Sil</button>
+      </div>
+    </div>
+  </div>
