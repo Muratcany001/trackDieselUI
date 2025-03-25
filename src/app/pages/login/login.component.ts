@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../restApiService/api.service';
@@ -14,14 +14,31 @@ import { ApiService } from '../../restApiService/api.service';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   errorMessage: string = '';
+  returnUrl: string = '/mainPage';
   
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private apiService: ApiService,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    // Eğer token varsa, kullanıcıyı mainPage'e yönlendir
+    const token = localStorage.getItem('token');
+    if (token) {
+      console.log('Token bulundu, mainPage\'e yönlendiriliyor');
+      this.router.navigate(['/mainPage']);
+      return;
+    }
+
+    // Return URL'i al
+    this.route.queryParams.subscribe(params => {
+      if (params['returnUrl']) {
+        this.returnUrl = params['returnUrl'];
+      }
+    });
+
     this.loginForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       password: ['', [Validators.required, Validators.minLength(2)]]
@@ -45,7 +62,7 @@ export class LoginComponent implements OnInit {
         if (response && response.token) {
           console.log('Token alındı, localStorage\'a kaydediliyor');
           localStorage.setItem('token', response.token);
-          this.router.navigate(['/mainPage']);
+          this.router.navigate([this.returnUrl]);
         } else {
           console.error('Yanıtta token yok:', response);
           this.errorMessage = 'Geçersiz yanıt alındı';

@@ -1,4 +1,3 @@
-import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { AddPageComponent } from './pages/add-page/add-page.component';
@@ -9,16 +8,17 @@ import { MainPageComponent } from './pages/main-page/main-page.component';
 import { UpdatePageComponent } from './pages/update-page/update-page.component';
 import { UserPageComponent } from './pages/user-page/user-page.component';
 import { SignupPageComponent } from './pages/signup-page/signup-page.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     {path : 'login', component:LoginComponent},
-    {path : 'addPage', component:AddPageComponent},
-    {path : 'searchPage', component:SearchPageComponent},
-    {path : 'aiPage', component:AiPageComponent},
-    {path : 'deletePage', component:DeletePageComponent},
-    {path : 'mainPage', component:MainPageComponent},
-    {path : 'updatePage', component:UpdatePageComponent},
-    {path : 'userPage', component:UserPageComponent},
+    {path : 'addPage', component:AddPageComponent, canActivate:[authGuard]},
+    {path : 'searchPage', component:SearchPageComponent, canActivate:[authGuard]},
+    {path : 'aiPage', component:AiPageComponent, canActivate:[authGuard]},
+    {path : 'deletePage', component:DeletePageComponent, canActivate:[authGuard]},
+    {path : 'mainPage', component:MainPageComponent, canActivate:[authGuard]},
+    {path : 'updatePage', component:UpdatePageComponent, canActivate:[authGuard]},
+    {path : 'userPage', component:UserPageComponent, canActivate:[authGuard]},
     {path : 'signupPage', component:SignupPageComponent},
     {path : '', redirectTo:'/login', pathMatch: 'full'}
 ];
