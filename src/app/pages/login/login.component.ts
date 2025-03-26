@@ -12,7 +12,7 @@ import { ApiService } from '../../restApiService/api.service';
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
+  loginForm: FormGroup;
   errorMessage: string = '';
   returnUrl: string = '/mainPage';
   
@@ -21,7 +21,12 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private formBuilder: FormBuilder
-  ) {}
+  ) {
+    this.loginForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      password: ['', [Validators.required, Validators.minLength(2)]]
+    });
+  }
 
   ngOnInit(): void {
     // Eğer token varsa, kullanıcıyı mainPage'e yönlendir
@@ -37,11 +42,6 @@ export class LoginComponent implements OnInit {
       if (params['returnUrl']) {
         this.returnUrl = params['returnUrl'];
       }
-    });
-
-    this.loginForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      password: ['', [Validators.required, Validators.minLength(2)]]
     });
   }
 
