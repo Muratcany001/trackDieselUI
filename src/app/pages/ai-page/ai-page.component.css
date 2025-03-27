@@ -1,56 +1,80 @@
-/* Basit bir stil */
+/* Genel Container Stili */
 .container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .car-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .car-item {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .car-item h3 {
-    margin: 0;
-    color: #333;
-  }
-  
-  .car-item p {
-    color: #555;
-    margin: 5px 0;
-  }
-  
-  .car-item button {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    font-size: 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .car-item button:hover {
-    background-color: #c0392b;
-  }
-  
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Başlık Stili */
+h2 {
+  text-align: center;
+  color: #2d3748;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+/* Araba Listeleme Alanı */
+.car-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Araba Öğesi Kartı Stili */
+.car-item {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.car-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Araba Kartı Başlık */
+.car-item h3 {
+  margin: 0;
+  color: #2d3748;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Araba Kartı Açıklaması */
+.car-item p {
+  color: #718096;
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+/* Araba Kartı Buton Stili */
+.car-item button {
+  background-color: #e53e3e;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Buton Hover Efekti */
+.car-item button:hover {
+  background-color: #c53030;
+  transform: translateY(-2px);
+}
+
+.car-item button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.4);
+}
