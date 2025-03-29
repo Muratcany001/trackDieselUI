@@ -25,18 +25,7 @@ export class SearchPageComponent implements OnInit {
     });
   }
   
-  deleteCar(id: number): void {
-    if(confirm('Bu aracı silmek istediğinize emin misiniz?')) {
-      this.apiService.deleteCar(id).subscribe(
-        () => {
-          alert('Araç başarıyla silindi.');
-          this.loadCars();
-        },
-        (error) => {
-          alert('Araç silinirken bir hata oluştu');
-          console.error(error);
-        }
-      );
-    }
+  getCarByPlate(): void{
+    
   }
 }

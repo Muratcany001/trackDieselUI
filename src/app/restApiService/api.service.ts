@@ -14,12 +14,24 @@ interface LoginResponse {
   // diğer response alanları...
 }
 
-interface Car {
+export interface Car {
   id?: number;
   plate: string;
-  // diğer araç alanları...
+  name:string;
+  age:number;
+  errorHistory?: Issue[];
+  lastMaintenanceDate:Date;
 }
-
+export interface Issue{
+  id?:number;
+  model?:string;
+  engineType?:string;
+  partName?:string;
+  description?:string;
+  dateReported?:Date;
+  isReplaced?:boolean;
+  carId?:number;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -54,8 +66,6 @@ export class ApiService {
       email: `${user.name}@example.com`,
       password: user.password
     };
-    
-    console.log('Login isteği gönderiliyor:', JSON.stringify(requestBody, null, 2));
     console.log('API URL:', `${this.apiUrl}/api/auth/login`);
     
     return this.http.post<LoginResponse>(`${this.apiUrl}/api/auth/login`, requestBody, { 
@@ -101,7 +111,7 @@ export class ApiService {
   }
 
   getCarByPlate(plate: string): Observable<Car> {
-    return this.http.get<Car>(`${this.apiUrl}/cars/plate/${plate}`, { headers: this.headers });
+    return this.http.get<Car>(`${this.apiUrl}/cars/GetCarByPlate/${plate}`, { headers: this.headers });
   }
 
   getAllIssues(): Observable<any[]> {

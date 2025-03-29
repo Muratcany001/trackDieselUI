@@ -9,7 +9,6 @@
         <p><strong>Plaka:</strong> {{ car.plate }}</p>
         <p><strong>Yaş:</strong> {{ car.age }} yıl</p>
         <p><strong>Son Bakım Tarihi:</strong> {{ car.lastMaintenanceDate | date:'dd/MM/yyyy' }}</p>
-        <button (click)="deleteCar(car.id)">Araç Sil</button>
       </div>
     </div>
   </div>

@@ -56,6 +56,7 @@ export class AddPageComponent implements OnInit {
       this.apiService.addCar(carData).subscribe(
         (response) => {
           console.log('Car added successfully', response);
+          alert("Car added succesfully");
           this.loading = false;
         },
         (error) => {
