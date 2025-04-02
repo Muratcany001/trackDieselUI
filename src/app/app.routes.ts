@@ -9,6 +9,7 @@ import { UpdatePageComponent } from './pages/update-page/update-page.component';
 import { UserPageComponent } from './pages/user-page/user-page.component';
 import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 import { authGuard } from './guards/auth.guard';
+import { RegisterPageComponent } from './pages/register-page/register-page.component';
 
 export const routes: Routes = [
     {path : 'login', component:LoginComponent},
@@ -20,5 +21,6 @@ export const routes: Routes = [
     {path : 'updatePage', component:UpdatePageComponent, canActivate:[authGuard]},
     {path : 'userPage', component:UserPageComponent, canActivate:[authGuard]},
     {path : 'signupPage', component:SignupPageComponent},
+    {path : 'registerPage', component:RegisterPageComponent},
     {path : '', redirectTo:'/login', pathMatch: 'full'}
 ];
