@@ -10,6 +10,7 @@ import { UserPageComponent } from './pages/user-page/user-page.component';
 import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 import { authGuard } from './guards/auth.guard';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
 
 export const routes: Routes = [
     {path : 'login', component:LoginComponent},
@@ -22,5 +23,6 @@ export const routes: Routes = [
     {path : 'userPage', component:UserPageComponent, canActivate:[authGuard]},
     {path : 'signupPage', component:SignupPageComponent},
     {path : 'registerPage', component:RegisterPageComponent},
+    {path : 'errorPage', component:ErrorPageComponent},
     {path : '', redirectTo:'/login', pathMatch: 'full'}
 ];

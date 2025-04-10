@@ -1,0 +1,14 @@
+<div class="container">
+    <!-- Ana İçerik -->
+    <div class="main-content">
+      <!-- Plaka Girişi Alanı -->
+      <div class="plate-entry">
+        <form>
+          <input type="text" formControlName="plateNumber" placeholder="Arıza kodu Girin...">
+          <button type="submit">Arıza kodu sorgula</button>
+          <div class="alert" ngClass="{'alert-succes': message.includes('bulundu'), 'alert-danger': message.includes('bulunamadı')}"></div>
+        </form>
+      </div>
+      <!-- Veritabanı Bilgisi Paneli -->  
+    </div>
+  </div>
