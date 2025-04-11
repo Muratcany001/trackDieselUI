@@ -97,6 +97,13 @@ export class ApiService {
   getCars(): Observable<Car[]> {
     return this.http.get<Car[]>(`${this.apiUrl}/cars`, { headers: this.headers });
   }
+  
+  addError(error: Error): Observable<Error> {
+    return this.http.post<Error>(`${this.apiUrl}/errors/AddError`, error, { headers: this.headers });
+  }
+  getError(errorName:string): Observable<Error>{
+    return this.http.post<Error>(`${this.apiUrl}/errors/GetErrorByName`, errorName, { headers: this.headers });
+  }
 
   updateCar(car: Car): Observable<Car> {
     return this.http.put<Car>(`${this.apiUrl}/cars/updateCar`, car, { headers: this.headers });
