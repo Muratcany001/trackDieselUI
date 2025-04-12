@@ -13,7 +13,11 @@ interface LoginResponse {
   token: string;
   // diğer response alanları...
 }
-
+export interface newError{
+  id?: number;
+  code:string;
+  description:string;
+}
 export interface Car {
   id?: number;
   plate: string;
@@ -98,11 +102,11 @@ export class ApiService {
     return this.http.get<Car[]>(`${this.apiUrl}/cars`, { headers: this.headers });
   }
   
-  addError(error: Error): Observable<Error> {
-    return this.http.post<Error>(`${this.apiUrl}/errors/AddError`, error, { headers: this.headers });
+  addError(error: newError): Observable<newError> {
+    return this.http.post<newError>(`${this.apiUrl}/errors/AddError`, error, { headers: this.headers });
   }
-  getError(errorName:string): Observable<Error>{
-    return this.http.post<Error>(`${this.apiUrl}/errors/GetErrorByName`, errorName, { headers: this.headers });
+  getError(errorName: string): Observable<newError> {
+    return this.http.get<newError>(`${this.apiUrl}/errors/GetErrorByName/${errorName}`, { headers: this.headers });
   }
 
   updateCar(car: Car): Observable<Car> {

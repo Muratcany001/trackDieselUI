@@ -1,14 +1,36 @@
 <div class="container">
-    <!-- Ana İçerik -->
-    <div class="main-content">
-      <!-- Plaka Girişi Alanı -->
-      <div class="plate-entry">
-        <form>
-          <input type="text" formControlName="plateNumber" placeholder="Arıza kodu Girin...">
-          <button type="submit">Arıza kodu sorgula</button>
-          <div class="alert" ngClass="{'alert-succes': message.includes('bulundu'), 'alert-danger': message.includes('bulunamadı')}"></div>
-        </form>
-      </div>
-      <!-- Veritabanı Bilgisi Paneli -->  
+  <div class="main-content">
+    <div class="plate-entry">
+      <form [formGroup]="errorForm">
+        <input 
+          type="text" 
+          formControlName="errorName" 
+          placeholder="Arıza kodu Girin..."
+        >
+        <button 
+          type="button" 
+          (click)="getError()" 
+          [disabled]="errorForm.invalid"
+        >
+          Arıza kodu sorgula
+        </button>
+        
+        @if (message) {
+          <div class="alert" 
+               [class.alert-success]="isSuccess" 
+               [class.alert-danger]="!isSuccess">
+            {{ message }}
+          </div>
+        }
+      </form>
     </div>
+
+    @if (code) {  <!-- code varlığını kontrol ediyoruz -->
+      <div class="error-details">
+        <h3>Arıza detayları:</h3>
+        <p><strong>Arıza kodu:</strong> {{ code }}</p>
+        <p><strong>Arıza açıklaması:</strong> {{ description }}</p>
+      </div>
+    }
   </div>
+</div>
