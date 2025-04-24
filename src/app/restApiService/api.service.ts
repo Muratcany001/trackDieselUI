@@ -94,38 +94,66 @@ export class ApiService {
     );
   }
 
-  addCar(car: Car): Observable<Car> {
-    return this.http.post<Car>(`${this.apiUrl}/cars/addCar`, car, { headers: this.headers });
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
   }
 
+  addCar(car: Car): Observable<Car> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<Car>(`${this.apiUrl}/cars/AddCar`, car, { 
+      headers: headers,
+      withCredentials: true // Eğer CORS problemi varsa true yapılabilir
+    }).pipe(
+      catchError(error => {
+        console.error('API Hatası:', error);
+        return this.handleError(error);
+      })
+    );
+}
+
+
   getCars(): Observable<Car[]> {
-    return this.http.get<Car[]>(`${this.apiUrl}/cars`, { headers: this.headers });
+    const headers = this.getAuthHeaders();
+    return this.http.get<Car[]>(`${this.apiUrl}/cars`, { headers });
   }
   
   addError(error: newError): Observable<newError> {
-    return this.http.post<newError>(`${this.apiUrl}/errors/AddError`, error, { headers: this.headers });
+    const headers = this.getAuthHeaders();
+    return this.http.post<newError>(`${this.apiUrl}/errors/AddError`, error, { headers });
   }
+
   getError(errorName: string): Observable<newError> {
-    return this.http.get<newError>(`${this.apiUrl}/errors/GetErrorByName/${errorName}`, { headers: this.headers });
+    const headers = this.getAuthHeaders();
+    return this.http.get<newError>(`${this.apiUrl}/errors/GetErrorByName/${errorName}`, { headers });
   }
 
   updateCar(car: Car): Observable<Car> {
-    return this.http.put<Car>(`${this.apiUrl}/cars/updateCar`, car, { headers: this.headers });
+    const headers = this.getAuthHeaders();
+    return this.http.put<Car>(`${this.apiUrl}/cars/updateCar`, car, { headers });
   }
 
   deleteCar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/cars/deleteCar/${id}`, { headers: this.headers });
+    const headers = this.getAuthHeaders();
+    return this.http.delete<void>(`${this.apiUrl}/cars/deleteCar/${id}`, { headers });
   }
 
   getCarCount(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/cars/count`, { headers: this.headers });
+    const headers = this.getAuthHeaders();
+    return this.http.get<number>(`${this.apiUrl}/cars/count`, { headers });
   }
 
   getCarByPlate(plate: string): Observable<Car> {
-    return this.http.get<Car>(`${this.apiUrl}/cars/GetCarByPlate/${plate}`, { headers: this.headers });
+    const headers = this.getAuthHeaders();
+    return this.http.get<Car>(`${this.apiUrl}/cars/GetCarByPlate/${plate}`, { headers });
   }
 
   getAllIssues(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/cars/issues`, { headers: this.headers });
+    const headers = this.getAuthHeaders();
+    return this.http.get<any[]>(`${this.apiUrl}/cars/issues`, { headers });
   }
 }

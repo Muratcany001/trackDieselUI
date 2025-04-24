@@ -1,49 +1,58 @@
 <div class="container">
-    <!-- Ana İçerik -->
-    <div class="main-content">
-      <!-- Plaka Girişi Alanı -->
-      <div class="plate-entry">
-        <form [formGroup]="loginForm" (ngSubmit)="searchPlate()">
-          <input type="text" formControlName="plateNumber" placeholder="Plaka Girin...">
-          <button type="submit">Plaka sorgula</button>
-          <div *ngIf="message" class="alert" ngClass="{'alert-succes': message.includes('bulundu'), 'alert-danger': message.includes('bulunamadı')}"></div>
-          {{message}}
-        </form>
-      </div>
-      <!-- Veritabanı Bilgisi Paneli -->
-      <div *ngIf="carDetails" class="info-panel">
-        <h3>Araç Bilgileri</h3>
-        <div class="vehicle-info">
-          <p><strong>Plaka:</strong> {{ carDetails.plate }}</p>
-          <p><strong>Marka/Model:</strong> {{ carDetails.name }}</p>
-          <p><strong>Araç Yaşı:</strong> {{ carDetails.age }}</p>
-          <p><strong>Son Bakım Tarihi:</strong> 
-            {{ carDetails.lastMaintenanceDate || 'Bakım kaydı yok' }}
-          </p>
+  <!-- Ana İçerik -->
+  <div class="main-content">
+    <!-- Plaka Girişi Alanı -->
+    <div class="plate-entry">
+      <form [formGroup]="loginForm" (ngSubmit)="searchPlate()">
+        <input type="text" formControlName="plateNumber" placeholder="Plaka Girin...">
+        <button type="submit">Plaka sorgula</button>
+        <div *ngIf="message" class="alert" [ngClass]="{'alert-success': message.includes('bulundu'), 'alert-danger': message.includes('bulunamadı')}">
+          {{ message }}
         </div>
-      
-        <div class="error-history">
-          <h4>Arıza Geçmişi</h4>
-          
-          <div *ngIf="carDetails.errorHistory?.length > 0; else noErrorHistory">
-            <div *ngFor="let issue of carDetails.errorHistory" class="error-item">
-              <p><strong>Parça:</strong> {{ issue.partName }}</p>
-              <p><strong>Motor Tipi:</strong> {{ issue.engineType }}</p>
-              <p><strong>Model:</strong> {{ issue.model }}</p>
-              <p><strong>Açıklama:</strong> {{ issue.description }}</p>
-              <p><strong>Bildirim Tarihi:</strong> {{ issue.dateReported | date:'dd/MM/yyyy HH:mm' }}</p>
-              <p><strong>Durum:</strong> 
-                <span [class.replaced]="issue.isReplaced" [class.not-replaced]="!issue.isReplaced">
-                  {{ issue.isReplaced ? 'Tamir Edildi' : 'Tamir Bekliyor' }}
-                </span>
-              </p>
-            </div>
+      </form>
+    </div>
+
+    <!-- Veritabanı Bilgisi Paneli -->
+    <div *ngIf="carDetails" class="info-panel">
+      <h3>Araç Bilgileri</h3>
+      <div class="vehicle-info">
+        <p><strong>Plaka:</strong> {{ carDetails.plate }}</p>
+        <p><strong>Marka/Model:</strong> {{ carDetails.name }}</p>
+        <p><strong>Araç Yaşı:</strong> {{ carDetails.age }}</p>
+        <p><strong>Son Bakım Tarihi:</strong> 
+          {{ carDetails.lastMaintenanceDate | date:'dd/MM/yyyy HH:mm'}}
+        </p>
+      </div>
+
+      <div class="error-history">
+        <h4>Arıza Geçmişi</h4>
+        
+        <div *ngIf="carDetails">
+          <p>Plaka: {{ carDetails.plate }}</p>
+          <p>Marka/Model: {{ carDetails.name }}</p>
+          <p>Araç Yaşı: {{ carDetails.age }}</p>
+          <p>Arızalı parça: {{ carDetails.partName}}</p>
+          <p>Arızalı parça: {{ carDetails.description}}</p>
+          <p>Son Bakım Tarihi: {{ carDetails.lastMaintenanceDate | date:'dd/MM/yyyy HH:mm' }}</p>
+        
+          <div *ngIf="carDetails.errorHistory && carDetails.errorHistory.length > 0; else noErrors">
+            <h3>Arıza Geçmişi</h3>
+            <ul>
+              <li *ngFor="let error of carDetails.errorHistory">
+                <p>{{ error.dateReported | date:'dd/MM/yyyy HH:mm' }} - {{ error.description }}</p>
+              </li>
+            </ul>
           </div>
-          
-          <ng-template #noErrorHistory>
+          <ng-template #noErrors>
             <p>Bu araca ait kayıtlı arıza bulunamadı.</p>
           </ng-template>
         </div>
+        
+        
+        <ng-template #noErrorHistory>
+          <p>Bu araca ait kayıtlı arıza bulunamadı.</p>
+        </ng-template>
       </div>
     </div>
-
+  </div>
+</div>

@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../restApiService/api.service';
 import { map } from 'rxjs/operators'; // Bu satırı ekleyin
 import { Observable } from 'rxjs'; // Bu da zaten yoksa ekleyin
+import { HttpHeaders } from '@angular/common/http';
 @Component({
   selector: 'app-main-page',
   standalone: true,
@@ -31,16 +32,33 @@ export class MainPageComponent {
     if(this.loginForm.invalid){
       return;
     }
-    const plateNumber = this.loginForm.value.plateNumber;
+    const token = localStorage.getItem('token');
     
+    if (!token) {
+      alert('Lütfen önce giriş yapın');
+      this.router.navigate(['/login']);
+      return;
+    }
+    
+    const plateNumber = this.loginForm.value.plateNumber;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+
+
     this.apiService.getCarByPlate(plateNumber)
       .pipe(
         map(response => {
-          // errorHistory.$values yerine direkt errorHistory array'ini kullan
-          if (response.errorHistory && response.errorHistory.values) {
+          // errorHistory değerini kontrol edip, tarihleri Date nesnesine dönüştürme
+          if (response.errorHistory && Array.isArray(response.errorHistory)) {
             return {
               ...response,
-              errorHistory: response.errorHistory.values
+              errorHistory: response.errorHistory.map((issue: any) => ({
+                ...issue,
+                dateReported: new Date(issue.dateReported) // Tarih dönüşümü
+              }))
             };
           }
           return response;
@@ -48,13 +66,14 @@ export class MainPageComponent {
       )
       .subscribe(
         (carData) => {
+          console.log(carData.errorHistory);  // Konsola errorHistory'yi yazdırıyoruz
           this.carDetails = carData;
-          console.log('Araç Detayları:', this.carDetails);
+          this.message = "Araç bulundu";
         },
         (error) => {
           this.message = "Araç bulunamadı";
-          alert(this.message);
+          console.error(error);  // Hata durumunda error'ı konsola yazdırıyoruz
         }
-      );  
-  }
-}
+      );
+
+}}
