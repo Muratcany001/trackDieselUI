@@ -1,7 +1,5 @@
 <div class="container">
-  <!-- Ana İçerik -->
   <div class="main-content">
-    <!-- Plaka Girişi Alanı -->
     <div class="plate-entry">
       <form [formGroup]="loginForm" (ngSubmit)="searchPlate()">
         <input type="text" formControlName="plateNumber" placeholder="Plaka Girin...">
@@ -12,47 +10,28 @@
       </form>
     </div>
 
-    <!-- Veritabanı Bilgisi Paneli -->
     <div *ngIf="carDetails" class="info-panel">
       <h3>Araç Bilgileri</h3>
       <div class="vehicle-info">
         <p><strong>Plaka:</strong> {{ carDetails.plate }}</p>
         <p><strong>Marka/Model:</strong> {{ carDetails.name }}</p>
         <p><strong>Araç Yaşı:</strong> {{ carDetails.age }}</p>
-        <p><strong>Son Bakım Tarihi:</strong> 
-          {{ carDetails.lastMaintenanceDate | date:'dd/MM/yyyy HH:mm'}}
-        </p>
+        <p><strong>Son Bakım Tarihi:</strong> {{ carDetails.lastMaintenanceDate | date: 'dd/MM/yyyy HH:mm' }}</p>
       </div>
 
-      <div class="error-history">
+      <div class="error-history" *ngIf="carDetails.errorHistory?.length > 0; else noErrors">
         <h4>Arıza Geçmişi</h4>
-        
-        <div *ngIf="carDetails">
-          <p>Plaka: {{ carDetails.plate }}</p>
-          <p>Marka/Model: {{ carDetails.name }}</p>
-          <p>Araç Yaşı: {{ carDetails.age }}</p>
-          <p>Arızalı parça: {{ carDetails.partName}}</p>
-          <p>Arızalı parça: {{ carDetails.description}}</p>
-          <p>Son Bakım Tarihi: {{ carDetails.lastMaintenanceDate | date:'dd/MM/yyyy HH:mm' }}</p>
-        
-          <div *ngIf="carDetails.errorHistory && carDetails.errorHistory.length > 0; else noErrors">
-            <h3>Arıza Geçmişi</h3>
-            <ul>
-              <li *ngFor="let error of carDetails.errorHistory">
-                <p>{{ error.dateReported | date:'dd/MM/yyyy HH:mm' }} - {{ error.description }}</p>
-              </li>
-            </ul>
-          </div>
-          <ng-template #noErrors>
-            <p>Bu araca ait kayıtlı arıza bulunamadı.</p>
-          </ng-template>
-        </div>
-        
-        
-        <ng-template #noErrorHistory>
-          <p>Bu araca ait kayıtlı arıza bulunamadı.</p>
-        </ng-template>
+        <ul>
+          <li *ngFor="let issue of carDetails.errorHistory">
+            <p><strong>Arıza Tarihi:</strong> {{ issue.dateReported | date: 'dd/MM/yyyy HH:mm' }}</p>
+            <p><strong>Arıza Açıklaması:</strong> {{ issue.description }}</p>
+            <p><strong>Arıza Parçası:</strong> {{ issue.partName }}</p>
+          </li>
+        </ul>
       </div>
+      <ng-template #noErrors>
+        <p>Bu araca ait kayıtlı arıza bulunamadı.</p>
+      </ng-template>
     </div>
   </div>
 </div>

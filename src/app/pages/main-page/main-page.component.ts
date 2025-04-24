@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../restApiService/api.service';
-import { map } from 'rxjs/operators'; // Bu satırı ekleyin
-import { Observable } from 'rxjs'; // Bu da zaten yoksa ekleyin
+import { map } from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
+
 @Component({
   selector: 'app-main-page',
   standalone: true,
@@ -16,20 +16,23 @@ import { HttpHeaders } from '@angular/common/http';
 export class MainPageComponent {
   plateNumber: string = '';
   loginForm!: FormGroup;
-  message:string='';
-  carDetails:any={};
+  message: string = '';
+  carDetails: any = {};
+
   constructor(
     private apiService: ApiService,
     private router: Router,
     private formBuilder: FormBuilder
-  ){}
-  ngOnInit(): void{
+  ) {}
+
+  ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      plateNumber:['',[Validators.required]]
+      plateNumber: ['', [Validators.required]]
     });
   }
+
   searchPlate(): void {
-    if(this.loginForm.invalid){
+    if (this.loginForm.invalid) {
       return;
     }
     const token = localStorage.getItem('token');
@@ -47,33 +50,38 @@ export class MainPageComponent {
       'Accept': 'application/json'
     });
 
-
     this.apiService.getCarByPlate(plateNumber)
-      .pipe(
-        map(response => {
-          // errorHistory değerini kontrol edip, tarihleri Date nesnesine dönüştürme
-          if (response.errorHistory && Array.isArray(response.errorHistory)) {
-            return {
-              ...response,
-              errorHistory: response.errorHistory.map((issue: any) => ({
-                ...issue,
-                dateReported: new Date(issue.dateReported) // Tarih dönüşümü
-              }))
-            };
-          }
-          return response;
-        })
-      )
-      .subscribe(
-        (carData) => {
-          console.log(carData.errorHistory);  // Konsola errorHistory'yi yazdırıyoruz
-          this.carDetails = carData;
-          this.message = "Araç bulundu";
-        },
-        (error) => {
-          this.message = "Araç bulunamadı";
-          console.error(error);  // Hata durumunda error'ı konsola yazdırıyoruz
-        }
-      );
+  .pipe(
+    map(response => {
+      console.log('API Yanıtı:', response); // Yanıtı konsola yazdır
 
-}}
+      // errorHistory'nin içindeki $values dizisini kontrol et
+      if (response.errorHistory && response.errorHistory['$values'] && Array.isArray(response.errorHistory['$values'])) {
+        // errorHistory['$values']'yi alın ve tarih dönüşümünü yapın
+        return {
+          ...response,
+          errorHistory: response.errorHistory['$values'].map((issue: any) => ({
+            ...issue,
+            dateReported: new Date(issue.dateReported) // Tarih dönüşümü
+          }))
+        };
+      }
+      return response;
+    })
+  )
+  .subscribe(
+    (carData) => {
+      console.log('Gelen Araç Verisi:', carData);
+      this.carDetails = carData;
+      this.message = "Araç bulundu";
+    },
+    (error) => {
+      this.message = "Araç bulunamadı";
+      console.error(error);  // Hata durumunda error'ı konsola yazdırıyoruz
+    }
+  );
+
+
+
+  }
+}

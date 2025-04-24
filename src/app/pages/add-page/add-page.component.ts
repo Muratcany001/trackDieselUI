@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ApiService } from '../../restApiService/api.service';
+import { ApiService, Car, CarWithoutValues } from '../../restApiService/api.service';
 import { AuthService } from '../../restApiService/auth.service';
 
 
@@ -32,51 +32,63 @@ export class AddPageComponent implements OnInit {
     });
   }
 
+  // add-page.component.ts'de
   addCar(): void {
     if (this.carForm.valid) {
       const formValue = this.carForm.value;
-
-      // Auth servisi ile kullanıcı ID'sini al
       const userId = this.authService.getCurrentUserId();
+         
       if (!userId) {
         alert("Kullanıcı bilgisi alınamadı.");
         return;
       }
-
-      // carData nesnesini oluştur
-      const carData = {
+      
+      // Tarihleri ISO formatına çeviriyoruz
+      const lastMaintenanceDate = new Date(formValue.lastMaintenanceDate).toISOString();
+      const dateReported = new Date(formValue.dateReported).toISOString();
+      
+      // Car nesnesini doğru formatta oluşturuyoruz
+      const carData: CarWithoutValues = {
         name: formValue.carName,
         age: formValue.carAge,
         plate: formValue.carPlate,
-        lastMaintenanceDate: formValue.lastMaintenanceDate,
+        lastMaintenanceDate: lastMaintenanceDate,
         errorHistory: [
           {
             model: formValue.model,
             engineType: formValue.engineType,
             partName: formValue.partName,
             description: formValue.description,
-            dateReported: formValue.dateReported,
+            dateReported: dateReported,
             isReplaced: formValue.isReplaced === 'true',
-            carId: 0 // Backend tarafından otomatik olarak oluşturulacak ID
+            carId: 0
           }
         ],
-        userId: userId, // Kullanıcı ID'sini ekle
+        userId: userId
       };
-
+      
+      console.log("Gönderilen veri:", JSON.stringify(carData, null, 2)); // Debug için
+      
       this.loading = true;
-      this.apiService.addCar(carData).subscribe(
-        (response) => {
-          console.log('Car added successfully', response);
-          alert("Car added successfully");
-          this.loading = false;
+      this.apiService.addCar(carData).subscribe({
+        next: (response) => {
+          console.log('Başarılı:', response);
+          alert("Araç başarıyla eklendi");
+          this.carForm.reset();
         },
-        (error) => {
-          console.error('Error adding car:', error);
+        error: (error) => {
+          console.error('Hata:', error);
+          if (error.error) {
+            console.error('Hata Detayları:', error.error);
+          }
+          alert('Hata oluştu: ' + (error.error?.message || error.message));
+        },
+        complete: () => {
           this.loading = false;
         }
-      );
+      });
     } else {
-      alert('Form is invalid');
+      alert('Lütfen tüm zorunlu alanları doldurun');
     }
   }
 }

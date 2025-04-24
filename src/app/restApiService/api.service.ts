@@ -23,17 +23,29 @@ export interface Car {
   plate: string;
   name:string;
   age:number;
-  errorHistory?: Issue[];
-  lastMaintenanceDate:Date;
+  errorHistory?: { $values: Issue[]};
+  //errorHistory: { $values: Issue[] };
+  lastMaintenanceDate:Date | string;
+  userId:String;
 }
+export interface CarWithoutValues {
+  id?: number;
+  plate: string;
+  name: string;
+  age: number;
+  errorHistory: Issue[]; // Direkt dizi
+  lastMaintenanceDate: Date | string;
+  userId: string;
+}
+
 export interface Issue{
   id?:number;
   model?:string;
   engineType?:string;
   partName?:string;
   description?:string;
-  dateReported?:Date;
-  isReplaced?:boolean;
+  dateReported?:Date | string;
+  isReplaced:boolean;
   carId?:number;
 }
 @Injectable({
@@ -103,17 +115,26 @@ export class ApiService {
     });
   }
 
-  addCar(car: Car): Observable<Car> {
-    const headers = this.getAuthHeaders();
-    return this.http.post<Car>(`${this.apiUrl}/cars/AddCar`, car, { 
-      headers: headers,
-      withCredentials: true // Eğer CORS problemi varsa true yapılabilir
-    }).pipe(
-      catchError(error => {
-        console.error('API Hatası:', error);
-        return this.handleError(error);
-      })
-    );
+  // In api.service.ts
+addCar(car: CarWithoutValues): Observable<Car> {
+  const headers = this.getAuthHeaders();
+  
+  // Debug için log
+  console.log('API Request Payload:', JSON.stringify(car, null, 2));
+  
+  return this.http.post<Car>(`${this.apiUrl}/cars/AddCar`, car, { 
+    headers: headers,
+    withCredentials: true
+  }).pipe(
+    catchError(error => {
+      console.error('API Hatası Detayları:', {
+        status: error.status,
+        message: error.message,
+        error: error.error
+      });
+      return throwError(() => error);
+    })
+  );
 }
 
 
