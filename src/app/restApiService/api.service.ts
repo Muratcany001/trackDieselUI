@@ -147,7 +147,14 @@ addCar(car: CarWithoutValues): Observable<Car> {
     const headers = this.getAuthHeaders();
     return this.http.post<newError>(`${this.apiUrl}/errors/AddError`, error, { headers });
   }
-
+  logOut(){
+    const token = localStorage.getItem('token');
+    if (!token){
+      return;
+    }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}` )
+    return this.http.post(`${this.apiUrl}/api/auth/logout`, {}, {headers} )
+  }
   getError(errorName: string): Observable<newError> {
     const headers = this.getAuthHeaders();
     return this.http.get<newError>(`${this.apiUrl}/errors/GetErrorByName/${errorName}`, { headers });

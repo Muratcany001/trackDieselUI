@@ -11,6 +11,7 @@ import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 import { authGuard } from './guards/auth.guard';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
+import { LogoutComponent } from './pages/logout/logout.component';
 
 export const routes: Routes = [
     {path : 'login', component:LoginComponent},
@@ -24,5 +25,6 @@ export const routes: Routes = [
     {path : 'signupPage', component:SignupPageComponent},
     {path : 'registerPage', component:RegisterPageComponent},
     {path : 'errorPage', component:ErrorPageComponent},
+    {path : 'logout', component:LogoutComponent},
     {path : '', redirectTo:'/login', pathMatch: 'full'}
 ];
