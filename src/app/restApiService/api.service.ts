@@ -164,6 +164,10 @@ addCar(car: CarWithoutValues): Observable<Car> {
     const headers = this.getAuthHeaders();
     return this.http.put<Car>(`${this.apiUrl}/cars/updateCar`, car, { headers });
   }
+    getCarsAll(){
+      const headers = this.getAuthHeaders();
+      return this.http.get<Car []>(`${this.apiUrl}/cars/GetAll`,{ headers });
+    }
 
   deleteCar(id: number): Observable<void> {
     const headers = this.getAuthHeaders();

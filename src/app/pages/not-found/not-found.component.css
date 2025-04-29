@@ -1,0 +1,8 @@
+.container {
+    display: flex;
+    justify-content: center;
+    color: black;
+    font-size: larger;
+    font-family: 'Poppins', sans-serif; /* Modern yazı tipi */
+    background-color: #f4f6f9; 
+}

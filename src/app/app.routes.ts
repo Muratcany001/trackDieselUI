@@ -12,6 +12,7 @@ import { authGuard } from './guards/auth.guard';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { LogoutComponent } from './pages/logout/logout.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
     {path : 'login', component:LoginComponent},
@@ -26,5 +27,6 @@ export const routes: Routes = [
     {path : 'registerPage', component:RegisterPageComponent},
     {path : 'errorPage', component:ErrorPageComponent},
     {path : 'logout', component:LogoutComponent},
+    {path : '**', component:NotFoundComponent},
     {path : '', redirectTo:'/login', pathMatch: 'full'}
 ];

@@ -53,16 +53,13 @@ export class MainPageComponent {
     this.apiService.getCarByPlate(plateNumber)
   .pipe(
     map(response => {
-      console.log('API Yanıtı:', response); // Yanıtı konsola yazdır
-
-      // errorHistory'nin içindeki $values dizisini kontrol et
+      console.log('API Yanıtı:', response);
       if (response.errorHistory && response.errorHistory['$values'] && Array.isArray(response.errorHistory['$values'])) {
-        // errorHistory['$values']'yi alın ve tarih dönüşümünü yapın
         return {
           ...response,
           errorHistory: response.errorHistory['$values'].map((issue: any) => ({
             ...issue,
-            dateReported: new Date(issue.dateReported) // Tarih dönüşümü
+            dateReported: new Date(issue.dateReported)
           }))
         };
       }
@@ -77,7 +74,7 @@ export class MainPageComponent {
     },
     (error) => {
       this.message = "Araç bulunamadı";
-      console.error(error);  // Hata durumunda error'ı konsola yazdırıyoruz
+      console.error(error);
     }
   );
 
