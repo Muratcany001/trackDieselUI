@@ -140,7 +140,7 @@ addCar(car: CarWithoutValues): Observable<Car> {
 
   getCars(): Observable<Car[]> {
     const headers = this.getAuthHeaders();
-    return this.http.get<Car[]>(`${this.apiUrl}/cars`, { headers });
+    return this.http.get<Car[]>(`${this.apiUrl}/cars/GetAll`, { headers });
   }
   
   addError(error: newError): Observable<newError> {

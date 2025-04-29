@@ -1,14 +1,46 @@
-<div class="container">
-    <h2>Araç Listesi</h2>
-    <div *ngIf="cars && cars.length === 0">
-      <p>Henüz araç bulunmamaktadır.</p>
-    </div>
-    <div *ngIf="cars && cars.length > 0" class="car-list">
-      <div *ngFor="let car of cars" class="car-item">
-        <h3>{{ car.name }}</h3>
-        <p><strong>Plaka:</strong> {{ car.plate }}</p>
-        <p><strong>Yaş:</strong> {{ car.age }} yıl</p>
-        <p><strong>Son Bakım Tarihi:</strong> {{ car.lastMaintenanceDate | date:'dd/MM/yyyy' }}</p>
+<div class="car-container">
+    <!-- Yükleniyor mesajı -->
+    <div *ngIf="isLoading" class="loading-message">Veriler yükleniyor...</div>
+  
+    <!-- Veriler yüklendiyse, araçları göster -->
+    <div *ngIf="!isLoading && cars.length > 0" class="car-grid">
+      <div *ngFor="let car of cars" class="car-card">
+        <div class="car-header">
+          <h3>{{ car.name }}</h3>
+          <span class="plate-badge">{{ car.plate }}</span>
+        </div>
+        
+        <div class="car-details">
+          <div class="detail-item">
+            <span class="detail-label">Yaş:</span>
+            <span class="detail-value">{{ car.age }} yıl</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Son Bakım:</span>
+            <span class="detail-value">{{ car.lastMaintenanceDate ? (car.lastMaintenanceDate | date: 'dd/MM/yyyy') : 'Kayıt yok' }}</span>
+          </div>
+        </div>
+  
+        <!-- Hata Geçmişi -->
+        <div *ngIf="car.issues && car.issues.length > 0" class="issues-section">
+          <h4 class="issues-title">Hata Geçmişi</h4>
+          <div class="issues-list">
+            <div *ngFor="let issue of car.issues" class="issue-card" [class.replaced]="issue.isReplaced">
+              <div class="issue-part">{{ issue.partName || 'Belirtilmemiş' }}</div>
+              <p class="issue-desc">{{ issue.description || 'Açıklama yok' }}</p>
+              <div class="issue-footer">
+                <span class="issue-date">{{ issue.dateReported | date: 'dd/MM/yyyy' }}</span>
+                <span class="issue-status">{{ issue.isReplaced ? '✓ Çözüldü' : '⚠ Onarım Bekliyor' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+  
+    <!-- Araç yoksa, mesaj göster -->
+    <div *ngIf="!isLoading && cars.length === 0" class="no-cars-message">
+      <i class="icon-car"></i>
+      <p>Henüz kayıtlı araç bulunmamaktadır.</p>
     </div>
   </div>

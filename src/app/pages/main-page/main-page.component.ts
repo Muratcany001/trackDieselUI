@@ -77,8 +77,5 @@ export class MainPageComponent {
       console.error(error);
     }
   );
-
-
-
   }
 }
