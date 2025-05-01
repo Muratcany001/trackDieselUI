@@ -1,4 +1,4 @@
-/* Genel Gövde ve Font Ayarları */
+/* Genel Ayarlar */
 * {
   margin: 0;
   padding: 0;
@@ -7,151 +7,146 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f2f5;
-  color: #2d3748;
-  line-height: 1.6;
+  background-color: #f4f6f8;
+  color: #333;
+  padding: 40px 0;
 }
 
-/* Layout */
 .container {
-  display: flex;
-  min-height: 100vh;
-}
-
-/* Sol Panel */
-.side-panel {
-  width: 260px;
-  background-color: #1a202c;
-  color: #ffffff;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.side-panel h2 {
-  font-size: 1.75rem;
-  margin-bottom: 24px;
-  text-align: center;
-  font-weight: 600;
-  color: #f7fafc;
-}
-
-.side-panel nav ul {
-  list-style: none;
-  padding: 0;
-}
-
-.side-panel nav ul li {
-  margin: 18px 0;
-}
-
-.side-panel nav ul li a {
-  color: #e2e8f0;
-  text-decoration: none;
-  font-size: 1.1rem;
-  display: block;
-  padding: 10px 12px;
-  border-radius: 6px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.side-panel nav ul li a:hover {
-  background-color: #2d3748;
-  color: #63b3ed;
-}
-
-/* Ana İçerik */
-.main-content {
-  flex: 1;
-  padding: 40px 30px;
-}
-
-.update-car-form {
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  padding: 30px;
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.update-car-form h2 {
+/* Başlık */
+h2, h3 {
   text-align: center;
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 30px;
   color: #2c3e50;
+  margin-bottom: 25px;
 }
 
-.form-group {
+/* Mesajlar */
+.alert {
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 25px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.alert-success {
+  background-color: #dff0d8;
+  color: #3c763d;
+}
+
+.alert-danger {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+/* Form Alanları */
+form .mb-3 {
   margin-bottom: 20px;
 }
 
-.form-group label {
-  font-size: 0.95rem;
+label.form-label {
+  display: block;
   font-weight: 600;
   margin-bottom: 8px;
-  display: block;
-  color: #4a5568;
 }
 
-.form-group input {
+input.form-control,
+textarea.form-control {
   width: 100%;
-  padding: 12px 14px;
+  padding: 10px 12px;
   font-size: 1rem;
-  border: 1px solid #cbd5e0;
-  border-radius: 8px;
-  background-color: #f7fafc;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s;
+  background-color: #fafafa;
 }
 
-.form-group input:focus {
-  border-color: #4299e1;
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+input.form-control:focus,
+textarea.form-control:focus {
+  border-color: #3498db;
   outline: none;
 }
 
-button {
+.text-danger {
+  font-size: 0.9rem;
+  margin-top: 5px;
+  color: #e74c3c;
+}
+
+/* Checkbox */
+.form-check {
+  display: flex;
+  align-items: center;
+}
+
+.form-check-input {
+  margin-right: 10px;
+  transform: scale(1.2);
+}
+
+/* Buton */
+button.btn {
+  display: inline-block;
   width: 100%;
-  padding: 14px;
+  padding: 12px;
   font-size: 1.1rem;
-  font-weight: 600;
+  background-color: #3498db;
   color: white;
-  background-color: #3182ce;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 6px;
+  transition: background-color 0.3s;
 }
 
-button:hover {
-  background-color: #2b6cb0;
-  transform: translateY(-2px);
+button.btn:hover {
+  background-color: #2980b9;
 }
 
-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.4);
+/* Güncellenen Araç Bilgileri */
+.card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-top: 30px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-body p {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+/* Liste */
+ul.list-group {
+  padding-left: 0;
+  list-style: none;
+}
+
+.list-group-item {
+  background-color: #f9f9f9;
+  border: 1px solid #e1e1e1;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  padding: 15px;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .container {
-    flex-direction: column;
-  }
-
-  .side-panel {
-    width: 100%;
     padding: 20px;
   }
 
-  .main-content {
-    padding: 20px;
-  }
-
-  .update-car-form {
-    width: 100%;
-    padding: 20px;
+  button.btn {
+    font-size: 1rem;
   }
 }

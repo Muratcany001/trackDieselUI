@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../restApiService/api.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { map, Subject, takeUntil } from 'rxjs';
+import { catchError, map, of, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-search-page',
@@ -30,36 +30,48 @@ export class SearchPageComponent implements OnInit {
     this.apiService.getCars().pipe(
       map((response: any) => {
         console.log('API Yanıtı:', response);
-        if (response.errorHistory && response.errorHistory['$values'] && Array.isArray(response.errorHistory['$values'])) {
+        
+        // API yanıtından araç listesini al ($values içinde)
+        const cars = response.$values || [];
+        
+        // Her bir aracı işle
+        return cars.map((car: any) => {
+          // ErrorHistory'i işle (eğer varsa)
+          const errorHistory = car.errorHistory?.$values?.map((issue: any) => ({
+            ...issue,
+            dateReported: issue.dateReported ? new Date(issue.dateReported) : null
+          })) || [];
+          
+          // LastMaintenanceDate'i Date objesine çevir
+          const lastMaintenanceDate = car.lastMaintenanceDate 
+            ? new Date(car.lastMaintenanceDate) 
+            : null;
+          
           return {
-            ...response,
-            $values: response.$values.map((carData: any) => ({
-              ...carData,
-              errorHistory: carData.errorHistory && carData.errorHistory['$values']
-                ? carData.errorHistory['$values'].map((issue: any) => ({
-                    ...issue,
-                    dateReported: new Date(issue.dateReported)
-                  }))
-                : []
-            }))
+            ...car,
+            errorHistory,
+            lastMaintenanceDate,
+            // Diğer tarih alanları varsa onları da çevirebilirsiniz
           };
-        }
-
-        return response;
+        });
+      }),
+      catchError(error => {
+        console.error('Hata:', error);
+        return of([]); // Hata durumunda boş array dön
       }),
       takeUntil(this.destroy$)
-    ).subscribe(
-      (carData) => {
-        console.log('Gelen Araç Verisi:', carData);
-        this.cars = carData.$values || [];
+    ).subscribe({
+      next: (processedCars) => {
+        console.log('İşlenmiş Araç Verileri:', processedCars);
+        this.cars = processedCars;
         this.isLoading = false;
-        this.message = 'Araçlar başarıyla yüklendi';
+        this.message = `${processedCars.length} araç başarıyla yüklendi`;
       },
-      (error) => {
-        console.error('Hata:', error);
+      error: (error) => {
+        console.error('API Hatası:', error);
         this.isLoading = false;
-        this.message = 'Araçlar yüklenemedi';
+        this.message = 'Araçlar yüklenirken hata oluştu';
       }
-    );
+    });
   }
 }

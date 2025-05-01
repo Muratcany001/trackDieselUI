@@ -11,12 +11,24 @@ interface LoginRequest {
 
 interface LoginResponse {
   token: string;
-  // diğer response alanları...
 }
 export interface newError{
   id?: number;
   code:string;
   description:string;
+}
+export interface WorstCars{
+  id?:number;
+  model:String;
+  partName:String;
+  count:number;
+  userId:String;
+}
+
+export interface updateIssues {
+  PartName:String;
+  description:string;
+  DateReported: Date;
 }
 export interface Car {
   id?: number;
@@ -114,12 +126,8 @@ export class ApiService {
       'Accept': 'application/json'
     });
   }
-
-  // In api.service.ts
-addCar(car: CarWithoutValues): Observable<Car> {
-  const headers = this.getAuthHeaders();
-  
-  // Debug için log
+  addCar(car: CarWithoutValues): Observable<Car> {
+    const headers = this.getAuthHeaders();
   console.log('API Request Payload:', JSON.stringify(car, null, 2));
   
   return this.http.post<Car>(`${this.apiUrl}/cars/AddCar`, car, { 
@@ -136,13 +144,10 @@ addCar(car: CarWithoutValues): Observable<Car> {
     })
   );
 }
-
-
   getCars(): Observable<Car[]> {
     const headers = this.getAuthHeaders();
     return this.http.get<Car[]>(`${this.apiUrl}/cars/GetAll`, { headers });
   }
-  
   addError(error: newError): Observable<newError> {
     const headers = this.getAuthHeaders();
     return this.http.post<newError>(`${this.apiUrl}/errors/AddError`, error, { headers });
@@ -154,20 +159,29 @@ addCar(car: CarWithoutValues): Observable<Car> {
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}` )
     return this.http.post(`${this.apiUrl}/api/auth/logout`, {}, {headers} )
-  }
+    }
   getError(errorName: string): Observable<newError> {
     const headers = this.getAuthHeaders();
     return this.http.get<newError>(`${this.apiUrl}/errors/GetErrorByName/${errorName}`, { headers });
   }
 
-  updateCar(car: Car): Observable<Car> {
+  updateCar(plateNumber: string, issues: any[]): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.put<Car>(`${this.apiUrl}/cars/updateCar`, car, { headers });
+    return this.http.patch(
+      `${this.apiUrl}/cars/UpdateCar/${plateNumber}`,
+      issues.map(issue => ({
+        partName: issue.PartName,
+        description: issue.Description,
+        isReplaced: issue.IsReplaced,
+        dateReported: issue.DateReported.toISOString()
+      })),
+      { headers }
+    );
   }
-    getCarsAll(){
-      const headers = this.getAuthHeaders();
-      return this.http.get<Car []>(`${this.apiUrl}/cars/GetAll`,{ headers });
-    }
+  getCarsAll(){
+    const headers = this.getAuthHeaders();
+    return this.http.get<Car []>(`${this.apiUrl}/cars/GetAll`,{ headers });
+  }
 
   deleteCar(id: number): Observable<void> {
     const headers = this.getAuthHeaders();
@@ -183,7 +197,14 @@ addCar(car: CarWithoutValues): Observable<Car> {
     const headers = this.getAuthHeaders();
     return this.http.get<Car>(`${this.apiUrl}/cars/GetCarByPlate/${plate}`, { headers });
   }
-
+  GetModelsWithBrokenParts(): Observable<any[]>{
+    const headers = this.getAuthHeaders();
+    return this.http.get<any[]>(`${this.apiUrl}/cars/GetModelsWithBrokenParts`, { headers });
+  }
+  MostCommonProblems(): Observable<any[]>{
+    const headers=this.getAuthHeaders();
+    return this.http.get<any[]>(`${this.apiUrl}/cars/MostCommonProblems`, { headers });
+  }
   getAllIssues(): Observable<any[]> {
     const headers = this.getAuthHeaders();
     return this.http.get<any[]>(`${this.apiUrl}/cars/issues`, { headers });

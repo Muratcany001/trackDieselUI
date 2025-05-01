@@ -31,8 +31,6 @@ export class AddPageComponent implements OnInit {
       isReplaced: new FormControl('false', Validators.required)
     });
   }
-
-  // add-page.component.ts'de
   addCar(): void {
     if (this.carForm.valid) {
       const formValue = this.carForm.value;
@@ -42,12 +40,8 @@ export class AddPageComponent implements OnInit {
         alert("Kullanıcı bilgisi alınamadı.");
         return;
       }
-      
-      // Tarihleri ISO formatına çeviriyoruz
       const lastMaintenanceDate = new Date(formValue.lastMaintenanceDate).toISOString();
       const dateReported = new Date(formValue.dateReported).toISOString();
-      
-      // Car nesnesini doğru formatta oluşturuyoruz
       const carData: CarWithoutValues = {
         name: formValue.carName,
         age: formValue.carAge,
