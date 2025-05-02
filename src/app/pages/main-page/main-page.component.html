@@ -18,7 +18,6 @@
         <p><strong>Araç Yaşı:</strong> {{ carDetails.age }}</p>
         <p><strong>Son Bakım Tarihi:</strong> {{ carDetails.lastMaintenanceDate | date: 'dd/MM/yyyy HH:mm' }}</p>
       </div>
-
       <div class="error-history" *ngIf="carDetails.errorHistory?.length > 0; else noErrors">
         <h4>Arıza Geçmişi</h4>
         <ul>
@@ -26,6 +25,11 @@
             <p><strong>Arıza Tarihi:</strong> {{ issue.dateReported | date: 'dd/MM/yyyy HH:mm' }}</p>
             <p><strong>Arıza Açıklaması:</strong> {{ issue.description }}</p>
             <p><strong>Arıza Parçası:</strong> {{ issue.partName }}</p>
+            <p><strong>Parça değiştirildi mi?:</strong>
+              <span [ngClass]="issue.isReplaced ? 'replaced' : 'not-replaced'">
+                {{ issue.isReplaced ? 'Parça değiştirildi' : 'Parça değiştirilmedi' }}
+              </span>
+            </p>            
           </li>
         </ul>
       </div>

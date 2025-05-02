@@ -175,3 +175,12 @@ body {
         max-width: 100%;
     }
 }
+.replaced {
+    color: green; /* Parça değiştirildiyse yeşil */
+    border: #e0e0e0;
+  }
+  
+  .not-replaced {
+    color: red; /* Parça değiştirilmediyse sarı */
+    border: #e0e0e0;
+  }
