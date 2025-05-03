@@ -1,28 +1,27 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Araç Silme</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+<div class="container">
+  <div class="delete-car-form">
+    <h2>Araç Sil</h2>
 
-  <div class="container">
-    <!-- Ana İçerik -->
-    <div class="main-content">
-      <div class="delete-car-form">
-        <h2>Araç Silme</h2>
-        
-        <!-- Araç Silme Formu -->
-        <form id="deleteCarForm">
-          <div class="form-group">
-            <label for="carId">Araç ID</label>
-            <input type="number" id="carId" name="carId" placeholder="Silmek istediğiniz aracın ID'sini girin..." required>
-          </div>
-          <button type="submit" id="deleteCarBtn">Araç Sil</button>
-        </form>
-        
+    <form [formGroup]="carForm" (ngSubmit)="deleteCar()">
+      <div class="form-group">
+        <label for="plateNumber">Plaka Numarası</label>
+        <input
+          type="text"
+          id="plateNumber"
+          formControlName="plateNumber"
+          placeholder="Silinecek aracın plakasını girin..."
+        />
+        <div *ngIf="carForm.get('plateNumber')?.invalid && carForm.get('plateNumber')?.touched" class="error">
+          Plaka numarası gereklidir.
+        </div>
       </div>
-    </div>
+
+      <button
+        type="submit"
+        [disabled]="carForm.invalid || loading"
+      >
+        {{ loading ? 'Siliniyor...' : 'Araç Sil' }}
+      </button>
+    </form>
   </div>
+</div>

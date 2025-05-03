@@ -1,77 +1,67 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
 .container {
-  background-color: white;
+  max-width: 500px;
+  margin: 50px auto;
   padding: 30px;
-  border-radius: 12px; /* Slightly more rounded corners */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Softer shadow for more elegance */
-  max-width: 500px; /* Increased width for a bit more space */
-  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.main-content {
-  margin: 0 auto;
-}
-
-h2 {
+.delete-car-form h2 {
   text-align: center;
+  margin-bottom: 25px;
   color: #333;
-  font-size: 24px; /* Slightly larger title for better visibility */
-  margin-bottom: 20px; /* Added margin to separate the title from the form */
 }
 
 .form-group {
-  margin-bottom: 20px; /* More spacing between form groups */
+  margin-bottom: 20px;
 }
 
 label {
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 8px; /* Increased margin for better spacing */
   display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #444;
 }
 
-input[type="number"] {
+input[type="text"] {
   width: 100%;
-  padding: 12px; /* More padding for a larger input area */
-  font-size: 16px; /* Increased font size for better readability */
-  border: 1px solid #ddd;
-  border-radius: 8px; /* More rounded corners */
-  transition: all 0.3s ease; /* Smooth transition for focus effect */
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
 }
 
-input[type="number"]:focus {
-  border-color: #3498db; /* Blue border on focus */
-  box-shadow: 0 0 5px rgba(52, 152, 219, 0.2); /* Subtle shadow when focused */
-  outline: none; /* Remove the default focus outline */
+input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
-button {
+button[type="submit"] {
   width: 100%;
-  padding: 12px; /* More padding for a better button size */
-  background-color: #486d97;
+  padding: 12px;
+  background-color: #d9534f;
   color: white;
   font-size: 16px;
   border: none;
-  border-radius: 8px; /* More rounded corners for the button */
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Added transform for smooth scaling */
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #c0392b;
-  transform: scale(1.05); /* Slightly scale the button when hovered */
+button[type="submit"]:hover {
+  background-color: #c9302c;
 }
 
-button:focus {
-  outline: none; /* Remove the default focus outline */
+button[disabled] {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.error {
+  color: red;
+  font-size: 13px;
+  margin-top: 5px;
 }

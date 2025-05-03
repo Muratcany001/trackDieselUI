@@ -183,9 +183,9 @@ export class ApiService {
     return this.http.get<Car []>(`${this.apiUrl}/cars/GetAll`,{ headers });
   }
 
-  deleteCar(id: number): Observable<void> {
+  deleteCar(plate:string): Observable<void> {
     const headers = this.getAuthHeaders();
-    return this.http.delete<void>(`${this.apiUrl}/cars/deleteCar/${id}`, { headers });
+    return this.http.delete<void>(`${this.apiUrl}/cars/deleteCar/${plate}`, { headers });
   }
 
   getCarCount(): Observable<number> {
