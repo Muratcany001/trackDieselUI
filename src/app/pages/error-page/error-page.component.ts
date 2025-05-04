@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ApiService, newError } from '../../restApiService/api.service';
-import { catchError, of } from 'rxjs';
+import { catchError, map, of, throwError } from 'rxjs';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-error-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './error-page.component.html',
   styleUrls: ['./error-page.component.css']
 })
@@ -18,75 +18,94 @@ export class ErrorPageComponent implements OnInit {
   errorName: string = '';
   message: string = '';
   isSuccess: boolean = false;
+  isLoading: boolean = false;
+  geminiApiKey = '';
 
   constructor(
-    private apiService: ApiService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private http: HttpClient
   ) {
     this.errorForm = this.fb.group({
       errorName: ['', Validators.required]
     });
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   getError() {
     if (this.errorForm.invalid) {
-      this.message = 'Geçersiz form işlemi';
+      this.message = 'Lütfen geçerli bir hata kodu girin';
       this.isSuccess = false;
       return;
     }
-  
-    const errorName = this.errorForm.value.errorName;
-    console.log('Sorgulanan hata kodu:', errorName);
-    
-    this.apiService.getError(errorName)
-      .pipe(
-        catchError(err => {
-          console.error('API Hatası:', err);
-          this.message = 'API bağlantı hatası';
-          this.isSuccess = false;
-          return of(null);
-        })
-      )
-      .subscribe((response: any) => {
-        console.log('Full API yanıtı:', response);
-        
-        if (response && response.code) {  // $id property'sini kontrol etmeye gerek yok
-          this.code = response.code;
-          this.description = response.description;
-          console.log('Atanan değerler:', { 
-            code: this.code, 
-            description: this.description 
-          });
-          this.message = 'İşlem başarılı';
+
+    this.isLoading = true;
+    this.message = '';
+    this.errorName = this.errorForm.value.errorName;
+
+    this.fetchErrorFromGemini(this.errorName).subscribe({
+      next: (response) => {
+        if (response.generatedText) {
+          this.code = this.errorName;
+          this.description = response.generatedText;
+          this.message = 'AI yanıtı başarıyla alındı';
           this.isSuccess = true;
         } else {
-          this.code = '';
-          this.description = '';
-          this.message = 'Arıza kodu bulunamadı';
+          this.message = 'AI yanıtı alınamadı';
           this.isSuccess = false;
         }
-      });
-  }
-  addNewError (){
-    const addError: newError = {
-      code:'Hata kodu',
-      description:'Açıklama'
-    };
-    this.apiService.addError(addError)
-    .pipe(
-      catchError(err=> {
-        console.error('hata oluştu',err)
-        return of(null);
-      })
-    )
-    .subscribe(Response=>{
-      if (Response){
-        console.log('Hata başarıyla eklendi',Response)
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.message = 'Hata oluştu: ' + error.message;
+        this.isSuccess = false;
+        this.isLoading = false;
       }
-    })
-  };
+    });
+  }
+
+  fetchErrorFromGemini(errorName: string) {
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.geminiApiKey}`;
+    const prompt = `OBD2 ${errorName} arıza kodu için:
+  1. Arızanın teknik adını detaylıca anlat
+  2. Arızalı olabilecek parçaları 1-2-3 şeklinde maddele
+  3. Her madde EN FAZLA 3 kelime olsun
+  4. Toplam yanıt 50 kelimeyi GEÇMESİN
+  
+  Örnek çıktı formatı:
+  "Egzoz gazı devirdaim A devresi yüksek basın."
+  Arızalı olabilecek Parçalar:
+  1- Turbo pervanesi
+  2- Vana sensörü
+  3- Basınç hortumu"`;
+    
+    const requestBody = {
+      contents: [{
+        parts: [{ text: prompt }]
+      }],
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 100
+      }
+    };
+
+    interface GeminiResponse {
+      candidates?: {
+        content: {
+          parts: { text: string }[]
+        }
+      }[];
+    }
+
+    return this.http.post<GeminiResponse>(apiUrl, requestBody).pipe(
+      map(response => {
+        const text = response.candidates?.[0]?.content?.parts?.[0]?.text;
+        return { generatedText: text || 'Yanıt işlenemedi' };
+      }),
+      catchError(error => {
+        console.error('Gemini Error:', error);
+        return throwError(() => new Error('AI servisine bağlanılamadı'));
+      })
+    );
+  }
 }
