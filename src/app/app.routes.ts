@@ -28,5 +28,5 @@ export const routes: Routes = [
     {path : 'errorPage', component:ErrorPageComponent},
     {path : 'logout', component:LogoutComponent},
     {path : '**', component:NotFoundComponent},
-    {path : '', redirectTo:'/login', pathMatch: 'full'}
+    {path : '', redirectTo:'/mainPage', pathMatch: 'full'}
 ];

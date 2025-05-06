@@ -14,7 +14,110 @@
   background: #f5f5f5;
   border-radius: 8px;
 }
+/* Ana Container */
+.Info-Container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
+/* Başlık Stili */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header p {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+  padding: 10px;
+  background-color: #e9ecef;
+  border-radius: 5px;
+}
+
+/* Panel Başlıkları */
+.problem-info-header p,
+.broken-part-info-header p {
+  font-size: 1.4rem;
+  color: #495057;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #dee2e6;
+}
+
+/* Bilgi Panelleri */
+.problem-info-panel,
+.broken-part-info-panel {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Tablo Benzeri Görünüm (İçerik için) */
+.problem-info-panel div,
+.broken-part-info-panel div {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 15px;
+  border-bottom: 1px solid #f1f3f5;
+  transition: background-color 0.2s;
+}
+
+.problem-info-panel div:hover,
+.broken-part-info-panel div:hover {
+  background-color: #f8f9fa;
+}
+
+/* Son elemanın border'ını kaldırma */
+.problem-info-panel div:last-child,
+.broken-part-info-panel div:last-child {
+  border-bottom: none;
+}
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+  .Info-Container {
+    padding: 15px;
+    margin: 10px;
+  }
+  
+  .header p {
+    font-size: 1.5rem;
+  }
+  
+  .problem-info-header p,
+  .broken-part-info-header p {
+    font-size: 1.2rem;
+  }
+}
+
+/* Renk Teması */
+.problem-info-header p {
+  color: #d63031; /* Kırmızı tonu */
+}
+
+.broken-part-info-header p {
+  color: #0984e3; /* Mavi tonu */
+}
+
+/* Animasyonlar */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.problem-info-panel,
+.broken-part-info-panel {
+  animation: fadeIn 0.5s ease-out;
+}
 .no-cars-message {
   text-align: center;
   padding: 40px;

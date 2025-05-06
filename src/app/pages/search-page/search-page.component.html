@@ -1,4 +1,5 @@
 <div class="car-container">
+  <h1>Tüm araçlarım</h1>
     <!-- Yükleniyor mesajı -->
     <div *ngIf="isLoading" class="loading-message">Veriler yükleniyor...</div>
   
@@ -42,5 +43,31 @@
     <div *ngIf="!isLoading && cars.length === 0" class="no-cars-message">
       <i class="icon-car"></i>
       <p>Henüz kayıtlı araç bulunmamaktadır.</p>
+    </div>
+  </div>
+
+  <div class="Info-Container">
+    <div class="header">
+      <p>*Bilgi paneli*</p>
+    </div> 
+    <div class="problem-info-header">
+    <p>Sık karşılaşılan problemler</p>
+    <div class="problem-info-panel">
+      <div *ngFor="let problem of CommonProblems">
+        <span>{{ problem.description}}</span>
+        <span>{{ problem.count }}</span>
+      </div>
+    </div>
+    </div>
+    <div class="broken-part-info-header">
+      <p>En çok arıza çıkartan parçalar</p>
+      <div class="broken-part-info-panel">
+        <div *ngFor="let brokenPart of MostBrokenParts">
+          <span>{{brokenPart.model }}</span>
+          <span>{{brokenPart.engineType }}</span>
+          <span>{{brokenPart.partName }}</span>
+          <span>{{brokenPart.count }}</span>
+        </div>
+      </div>
     </div>
   </div>

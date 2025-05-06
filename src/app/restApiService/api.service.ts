@@ -49,7 +49,25 @@ export interface CarWithoutValues {
   lastMaintenanceDate: Date | string;
   userId: string;
 }
-
+interface ApiResponse {
+  $id: string;
+  $values: Array<{
+    $id: string;
+    description: string;
+    userId: string;
+    count: number;
+  }>;
+}
+interface ApiResponse2 {
+  $id: string;
+  $values: Array<{
+    $id: string;
+    model:string;
+    engineType:string;
+    partName:string;
+    count:number;
+  }>;
+}
 export interface Issue{
   id?:number;
   model?:string;
@@ -197,13 +215,13 @@ export class ApiService {
     const headers = this.getAuthHeaders();
     return this.http.get<Car>(`${this.apiUrl}/cars/GetCarByPlate/${plate}`, { headers });
   }
-  GetModelsWithBrokenParts(): Observable<any[]>{
+  GetModelsWithBrokenParts(): Observable<ApiResponse2>{
     const headers = this.getAuthHeaders();
-    return this.http.get<any[]>(`${this.apiUrl}/cars/GetModelsWithBrokenParts`, { headers });
+    return this.http.get<ApiResponse2>(`${this.apiUrl}/cars/GetModelsWithBrokenParts`, { headers });
   }
-  MostCommonProblems(): Observable<any[]>{
+  MostCommonProblems(): Observable<ApiResponse>{
     const headers=this.getAuthHeaders();
-    return this.http.get<any[]>(`${this.apiUrl}/cars/MostCommonProblems`, { headers });
+    return this.http.get<ApiResponse>(`${this.apiUrl}/cars/MostCommonProblems`, { headers });
   }
   getAllIssues(): Observable<any[]> {
     const headers = this.getAuthHeaders();
