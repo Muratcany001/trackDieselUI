@@ -42,13 +42,13 @@ export class MainPageComponent {
       this.router.navigate(['/login']);
       return;
     }
-    
-    const plateNumber = this.loginForm.value.plateNumber;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     });
+    const plateNumber = this.loginForm.value.plateNumber;
+    
 
     this.apiService.getCarByPlate(plateNumber)
   .pipe(

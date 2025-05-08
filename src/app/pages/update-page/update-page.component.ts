@@ -77,7 +77,11 @@ export class UpdatePageComponent {
           this.isLoading = false;
         },
         error: (error) => {
+          if (error.status== 400){
+            this.message= 'Araç bulunamadı'
+          }else {
           this.message = 'Araç güncellenirken hata oluştu: ' + (error.error?.message || error.message);
+          }
           this.isLoading = false;
           console.error('Güncelleme hatası:', error);
         }

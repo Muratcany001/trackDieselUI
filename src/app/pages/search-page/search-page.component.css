@@ -276,4 +276,19 @@
   .car-card {
     margin-bottom: 20px;
   }
+
+  ai-panel {
+    padding: 20px;
+    background-color: #f0f4fa;
+    color: #212121;
+    font-size: 15px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .ai-panel:hover {
+    background-color: #e9f1ff;
+  }
+  
 }
