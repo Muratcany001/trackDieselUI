@@ -19,7 +19,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   brokenParts: string = '';
   message: string = '';
   isLoading: boolean = true;
-  geminiApiKey: string = '';
+  geminiApiKey: string = 'AIzaSyALNpVC6NG3F_Or6iDRC3jVCE20qWpPPl8';
   MostCode: any[] = [];
   PartCode: any[] = [];
   description: string = '';
@@ -44,12 +44,14 @@ export class SearchPageComponent implements OnInit, OnDestroy {
       .pipe(
         map(response => response.$values.map((item: any) => ({
           description: item.description,
+          dateReported:item.dateReported,
           count: item.count
         })))
       )
       .subscribe({
         next: (filteredResponse) => {
           this.CommonProblems = filteredResponse;
+          console.log(filteredResponse);
           this.checkIfDataReady();
         },
         error: (err) => console.error("Hata:", err)
@@ -62,12 +64,14 @@ export class SearchPageComponent implements OnInit, OnDestroy {
           model: item.model,
           engineType: item.engineType,
           partName: item.partName,
+          dateReported:item.dateReported,
           count: item.count
         })))
       )
       .subscribe({
         next: (filteredResponse) => {
           this.MostBrokenParts = filteredResponse;
+          console.log("GetModelsWithBrokenPart", filteredResponse);
           this.checkIfDataReady();
         },
         error: (err) => console.error("Hata bulundu:", err)
@@ -139,29 +143,29 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.geminiApiKey}`;
 
     const commonProblemsText = commonProblems.map(prob =>
-      `${prob.description} (${prob.count} kez)`
+      `${prob.description} --${prob.dateReported}-  (${prob.count} kez)`
     ).join(", ");
-
     const brokenPartsText = mostBrokenParts.map(part =>
-      `${part.model} ${part.engineType} - ${part.partName} (${part.count} kez)`
+      `${part.model} ${part.engineType} - ${part.partName} - ${part.dateReported}  (${part.count} kez)`
     ).join(", ");
-
     const prompt = `
 Aşağıdaki verileri analiz edip özet bilgiler sağla:
-
 EN ÇOK KARŞILAŞILAN SORUNLAR:
 ${commonProblemsText}
 
 EN ÇOK ARIZALANAN PARÇALAR:
 ${brokenPartsText}
 
-İstenen çıktı formatı:
-En çok karşılaşılan 3 sorunu listele
-2. Araç modeli ve motor tipine göre en çok arızalanan 5 parçayı listele örnek: passat dizel turbo, doblo dizel enjektör , transported dizel turbo, linea dizel enjektör
-3. Yanıtını kısa ve öz tut, hikaye anlatma
-4. Her maddeyi numaralandır
-5. Bu prompt kullanıcı bilgilendirme otomasyonunda çalışacaktır yani bu vereceğin cevabı kullanıcı direkt olarak görecek ve prompt olarak yazıldıgının belli olmaması gerekiyor.
-`;
+      İstenen çıktı formatı:
+      Cevaba "Analiz sonuçları:" Diyerek başla
+      1. 1 ay içerisinde en çok karşılaşılan 3 arızalı parçayı listele Bu madde 2. Maddenin sadece 1 ay içerisindeki halidir.
+      2. Ayrıca son 1 ay içerisinde en sık karşılaşılan 3 problemi ver. dateReport adlı öznitelikten çek bu verileri ve analiz yap. Örnek: çekiş düşüklüğü, gaz yememe sorunu, conta patlatma
+      3. Tüm zamanlarda Araç modeli ve motor tipine göre en çok arızalanan 3 parçayı belirt. Format: “Model Motor Parça” (örnek: Passat Dizel Turbo).
+      4. Yanıtını kısa ve öz tut, hikaye anlatma
+      5. Yanıtı kısa, maddeli ve kullanıcıya yönelik net şekilde hazırla.
+      6. Açıklamalar sade, teknik terimler anlaşılır olmalı.
+      7. Sadece analiz yap. Karşında cevaplar, işte sonuçlar gibi cevaplar verme kullanıcıya dateReport vs vs şeyler yazma
+      `;
 
     const requestBody = {
       contents: [{
@@ -169,7 +173,7 @@ En çok karşılaşılan 3 sorunu listele
       }],
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 100
+        maxOutputTokens: 200
       }
     };
 
@@ -192,4 +196,10 @@ En çok karşılaşılan 3 sorunu listele
       })
     );
   }
+  isOverThreeYears(date: Date): boolean {
+    const threeYearsLater = new Date(date);
+    threeYearsLater.setFullYear(threeYearsLater.getFullYear() + 3);
+    return new Date() >= threeYearsLater;
+  }
+  
 }

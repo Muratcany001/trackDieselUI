@@ -55,6 +55,8 @@ interface ApiResponse {
     $id: string;
     description: string;
     userId: string;
+    dateReported: Date | string;
+    lastMaintenanceDate: Date |string;
     count: number;
   }>;
 }
@@ -65,6 +67,8 @@ interface ApiResponse2 {
     model:string;
     engineType:string;
     partName:string;
+    dateReported:string;
+    lastMaintenanceDate: Date |string;
     count:number;
   }>;
 }

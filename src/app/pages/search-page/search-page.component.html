@@ -18,7 +18,10 @@
           </div>
           <div class="detail-item">
             <span class="detail-label">Son Bakım:</span>
-            <span class="detail-value">{{ car.lastMaintenanceDate ? (car.lastMaintenanceDate | date: 'dd/MM/yyyy') : 'Kayıt yok' }}</span>
+            <span class="detail-value">
+              {{ car.lastMaintenanceDate ? (car.lastMaintenanceDate | date: 'dd/MM/yyyy') : 'Kayıt yok' }}
+              <span *ngIf="car.lastMaintenanceDate && isOverThreeYears(car.lastMaintenanceDate)">❗️</span>
+            </span>
           </div>
         </div>
   
