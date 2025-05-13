@@ -1,4 +1,4 @@
-/* Genel Ayarlar */
+/* Genel Gövde ve Font Ayarları */
 * {
   margin: 0;
   padding: 0;
@@ -7,146 +7,197 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f6f8;
-  color: #333;
-  padding: 40px 0;
+  background-color: #f0f2f5;
+  color: #2d3748;
+  line-height: 1.6;
 }
 
+/* Container */
 .container {
-  max-width: 800px;
+  width: 100%;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 30px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
 }
 
 /* Başlık */
-h2, h3 {
-  text-align: center;
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
   color: #2c3e50;
-  margin-bottom: 25px;
+  text-align: center;
 }
 
-/* Mesajlar */
+/* Mesaj Alanı */
 .alert {
   padding: 15px;
-  border-radius: 5px;
-  margin-bottom: 25px;
-  font-weight: 500;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 1rem;
   text-align: center;
 }
 
 .alert-success {
-  background-color: #dff0d8;
-  color: #3c763d;
+  background-color: #28a745;
+  color: white;
 }
 
 .alert-danger {
-  background-color: #f2dede;
-  color: #a94442;
+  background-color: #dc3545;
+  color: white;
 }
 
-/* Form Alanları */
-form .mb-3 {
+/* Form Alanı */
+form {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form Grup */
+.mb-3,
+.form-group {
   margin-bottom: 20px;
 }
 
-label.form-label {
+/* Form Grup Etiketleri */
+.form-label {
+  font-size: 1rem;
+  font-weight: bold; /* Etiketler için bold yazı tipi */
+  margin-bottom: 5px;
   display: block;
-  font-weight: 600;
-  margin-bottom: 8px;
 }
 
+/* Input, Select, Textarea */
 input.form-control,
+select.form-control,
 textarea.form-control {
   width: 100%;
   padding: 10px 12px;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
-  transition: border-color 0.3s;
   background-color: #fafafa;
+  transition: border-color 0.3s ease;
 }
 
+/* Input, Select, Textarea Odaklanınca */
 input.form-control:focus,
+select.form-control:focus,
 textarea.form-control:focus {
   border-color: #3498db;
   outline: none;
 }
 
+/* Hata Mesajı */
 .text-danger {
   font-size: 0.9rem;
+  color: #dc3545;
   margin-top: 5px;
-  color: #e74c3c;
-}
-
-/* Checkbox */
-.form-check {
-  display: flex;
-  align-items: center;
-}
-
-.form-check-input {
-  margin-right: 10px;
-  transform: scale(1.2);
 }
 
 /* Buton */
-button.btn {
-  display: inline-block;
+button {
   width: 100%;
   padding: 12px;
-  font-size: 1.1rem;
-  background-color: #3498db;
+  font-size: 1.2rem;
   color: white;
+  background-color: #3498db;
   border: none;
   border-radius: 6px;
-  transition: background-color 0.3s;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-button.btn:hover {
+button:hover {
   background-color: #2980b9;
 }
 
-/* Güncellenen Araç Bilgileri */
-.card {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  margin-top: 30px;
+button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
 }
 
-.card-body {
-  padding: 20px;
+/* Parça Adı ve Parça Değiştirildi mi? Butonlarını Aşağıya Alma */
+.form-group.parca-adı,
+.form-group.parca-degisti {
+  margin-top: 40px; /* Aşağıya doğru hareket ettiriyoruz */
 }
 
-.card-body p {
-  margin: 10px 0;
-  font-size: 1rem;
+/* Etiketlerin Bold Olması */
+.form-group select {
+  font-weight: normal; /* Select kutularındaki yazı bold olmayacak */
 }
 
-/* Liste */
-ul.list-group {
-  padding-left: 0;
-  list-style: none;
+.form-group label {
+  font-weight: bold; /* Etiketler bold olacak */
 }
 
-.list-group-item {
-  background-color: #f9f9f9;
-  border: 1px solid #e1e1e1;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  padding: 15px;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
+/* Responsive Tasarım */
+@media (max-width: 768px) {
   .container {
-    padding: 20px;
+      padding: 10px;
   }
 
-  button.btn {
-    font-size: 1rem;
+  .form-group {
+      margin-bottom: 15px;
   }
+
+  button {
+      padding: 10px;
+  }
+  /* Form ve Select Düzeni */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Select input düzeni */
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease;
+}
+
+/* Focus durumu */
+.form-group select:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+/* Buton ve Select arasındaki mesafe */
+.form-group label {
+  font-size: 1rem;
+  font-weight: bold;  /* Etiketlerin kalın yazılması */
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* Hatalı durum mesajları */
+.text-danger {
+  color: #dc3545;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* Parça adı ve Parça değiştirildi mi? butonları arasındaki düzen */
+.form-group select {
+  margin-bottom: 15px;
+}
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease;
+}
+
 }

@@ -5,15 +5,15 @@
       <form [formGroup]="carForm" (ngSubmit)="addCar()">
         <!-- Car alanları -->
         <div class="form-group">
-          <label for="carName">Araç Adı</label>
-          <input type="text" id="carName" formControlName="carName" placeholder="Araç adını girin...">
+          <label for="carName">Müşteri bilgileri</label>
+          <input type="text" id="carName" formControlName="carName" placeholder="Müşteri bilgisi girin...">
         </div>
         <div class="form-group">
-          <label for="carAge">Yaş</label>
+          <label for="carAge">Araç yaşı</label>
           <input type="number" id="carAge" formControlName="carAge" placeholder="Araç yaşını girin..." required>
         </div>
         <div class="form-group">
-          <label for="carPlate">Plaka</label>
+          <label for="carPlate">Araç plakası</label>
           <input type="text" id="carPlate" formControlName="carPlate" placeholder="Araç plakası girin...">
         </div>
         <div class="form-group">
@@ -22,14 +22,154 @@
         </div>
         
         <!-- Issue (errorHistory) alanları -->
-        <h3>Arıza Geçmişi (Issue)</h3>
+        <h3></h3>
         <div class="form-group">
           <label for="model">Model</label>
-          <input type="text" id="model" formControlName="model" placeholder="Model girin...">
-        </div>
+          <select id="model" formControlName="model" placeholder="Model girin...">
+            <option value="Belirtilmeyen araç">Araç listede yok</option>
+            <option value=""disabled selected>*********************Wolskwagen serisi*********************</option>
+            <option value="volkswagen passat">Volkswagen Passat</option>
+            <option value="volkswagen jetta">Volkswagen Jetta</option>
+            <option value="volkswagen golf">Volkswagen Golf</option>
+            <option value="volkswagen polo">Volkswagen Polo</option>
+            <option value="volkswagen arteon">Volkswagen Arteon</option>
+            <option value="volkswagen tiguan">Volkswagen Tiguan</option>
+            <option value="volkswagen touareg">Volkswagen Touareg</option>
+            <option value="volkswagen t-roc">Volkswagen T-Roc</option>
+            <option value="volkswagen t-cross">Volkswagen T-Cross</option>
+            <option value="volkswagen scirocco">Volkswagen Scirocco</option>
+            <option value="volkswagen beetle">Volkswagen Beetle</option>
+
+            <!-- VOLKSWAGEN Ticari -->
+            <option value="volkswagen transporter t4">Volkswagen Transporter T4</option>
+            <option value="volkswagen transporter t5">Volkswagen Transporter T5</option>
+            <option value="volkswagen transporter t6">Volkswagen Transporter T6</option>
+            <option value="volkswagen transporter t6.1">Volkswagen Transporter T6.1</option>
+            <option value="volkswagen transporter t7">Volkswagen Transporter T7</option>
+            <option value="volkswagen caravelle">Volkswagen Caravelle</option>
+            <option value="volkswagen multivan">Volkswagen Multivan</option>
+            <option value="volkswagen crafter">Volkswagen Crafter</option>
+            <option value="volkswagen caddy">Volkswagen Caddy</option>
+            <option value="volkswagen amarok">Volkswagen Amarok</option>
+
+            <option value=""disabled selected>*********************Audi serisi*********************</option>
+            <!-- AUDI -->
+            <option value="audi a1">Audi A1</option>
+            <option value="audi a3">Audi A3</option>
+            <option value="audi a4">Audi A4</option>
+            <option value="audi a5">Audi A5</option>
+            <option value="audi a6">Audi A6</option>
+            <option value="audi a7">Audi A7</option>
+            <option value="audi a8">Audi A8</option>
+            <option value="audi q2">Audi Q2</option>
+            <option value="audi q3">Audi Q3</option>
+            <option value="audi q5">Audi Q5</option>
+            <option value="audi q7">Audi Q7</option>
+            <option value="audi q8">Audi Q8</option>
+            <option value="audi tt">Audi TT</option>
+
+            <option value=""disabled selected>*********************Renault serisi*********************</option>
+            <option value="renault clio">Renault Clio</option>
+            <option value="renault megane">Renault Megane</option>
+            <option value="renault fluence">Renault Fluence</option>
+            <option value="renault captur">Renault Captur</option>
+            <option value="renault austral">Renault Austral</option>
+            <option value="renault koleos">Renault Koleos</option>
+            <option value="renault twingo">Renault Twingo</option>
+            <option value="renault scenic">Renault Scenic</option>
+            <option value="renault talisman">Renault Talisman</option>
+            <option value="renault kadjar">Renault Kadjar</option>
+            <option value="renault express">Renault Express</option>
+            <option value="renault trafic">Renault Trafic</option>
+            <option value="renault master">Renault Master</option>
+
+            <option value=""disabled selected>*********************Bmw serisi*********************</option>
+            <!-- BMW 3 Serisi -->
+            <option value="bmw 316i">BMW 316i</option>
+            <option value="bmw 318i">BMW 318i</option>
+            <option value="bmw 318d">BMW 318d</option>
+            <option value="bmw 320i">BMW 320i</option>
+            <option value="bmw 320d">BMW 320d</option>
+            <option value="bmw 325i">BMW 325i</option>
+            <option value="bmw 328i">BMW 328i</option>
+            <option value="bmw 330i">BMW 330i</option>
+            <option value="bmw 330d">BMW 330d</option>
+            <option value="bmw 335i">BMW 335i</option>
+            <option value="bmw m3">BMW M3</option>
+
+            <!-- BMW 5 Serisi -->
+            <option value="bmw 518i">BMW 518i</option>
+            <option value="bmw 520i">BMW 520i</option>
+            <option value="bmw 520d">BMW 520d</option>
+            <option value="bmw 523i">BMW 523i</option>
+            <option value="bmw 525i">BMW 525i</option>
+            <option value="bmw 525d">BMW 525d</option>
+            <option value="bmw 528i">BMW 528i</option>
+            <option value="bmw 530i">BMW 530i</option>
+            <option value="bmw 530d">BMW 530d</option>
+            <option value="bmw 535i">BMW 535i</option>
+            <option value="bmw 535d">BMW 535d</option>
+            <option value="bmw 540i">BMW 540i</option>
+            <option value="bmw 545i">BMW 545i</option>
+            <option value="bmw m5">BMW M5</option>
+
+            <option value=""disabled selected>*********************Mercedes serisi*********************</option>
+            <option value="mercedes c160">Mercedes C160</option>
+            <option value="mercedes c180">Mercedes C180</option>
+            <option value="mercedes c200">Mercedes C200</option>
+            <option value="mercedes c220">Mercedes C220</option>
+            <option value="mercedes c250">Mercedes C250</option>
+            <option value="mercedes c300">Mercedes C300</option>
+            <option value="mercedes c350">Mercedes C350</option>
+            <option value="mercedes amg c43">Mercedes AMG C43</option>
+            <option value="mercedes amg c63">Mercedes AMG C63</option>
+
+            <!-- MERCEDES E Serisi -->
+            <option value="mercedes e180">Mercedes E180</option>
+            <option value="mercedes e200">Mercedes E200</option>
+            <option value="mercedes e220">Mercedes E220</option>
+            <option value="mercedes e250">Mercedes E250</option>
+            <option value="mercedes e300">Mercedes E300</option>
+            <option value="mercedes e350">Mercedes E350</option>
+            <option value="mercedes e400">Mercedes E400</option>
+            <option value="mercedes amg e43">Mercedes AMG E43</option>
+            <option value="mercedes amg e53">Mercedes AMG E53</option>
+            <option value="mercedes amg e63">Mercedes AMG E63</option>
+            <option value=""disabled selected>*********************Fiat serisi*********************</option>
+            <option value="fiat egea">Fiat Egea</option>
+            <option value="fiat linea">Fiat Linea</option>
+            <option value="fiat bravo">Fiat Bravo</option>
+            <option value="fiat brava">Fiat Brava</option>
+            <option value="fiat punto">Fiat Punto</option>
+            <option value="fiat grande punto">Fiat Grande Punto</option>
+            <option value="fiat albea">Fiat Albea</option>
+            <option value="fiat palio">Fiat Palio</option>
+            <option value="fiat tipo">Fiat Tipo</option>
+            <option value="fiat uno">Fiat Uno</option>
+            <option value="fiat marea">Fiat Marea</option>
+            <option value="fiat siena">Fiat Siena</option>
+            <option value="fiat tempra">Fiat Tempra</option>
+            <option value="fiat doblo panorama">Fiat Doblo Panorama</option>
+            <option value="fiat 500">Fiat 500</option>
+            <option value="fiat 500x">Fiat 500X</option>
+            <option value="fiat 500l">Fiat 500L</option>
+            <option value="fiat panda">Fiat Panda</option>
+
+            <!-- FIAT Ticari Araçlar -->
+            <option value="fiat doblo">Fiat Doblo</option>
+            <option value="fiat fiorino">Fiat Fiorino</option>
+            <option value="fiat scudo">Fiat Scudo</option>
+            <option value="fiat ducato">Fiat Ducato</option>
+            <option value="fiat talento">Fiat Talento</option>
+            <option value="fiat ulysse">Fiat Ulysse</option>
+          </select>
+          </div>
         <div class="form-group">
           <label for="engineType">Motor Tipi</label>
-          <input type="text" id="engineType" formControlName="engineType" placeholder="Motor tipi girin...">
+          <select  id="engineType" formControlName="engineType" placeholder="Motor tipi girin...">
+            <option value="dizel">dizel</option>
+            <option value="benzin">benzin</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="partName">Parça Adı</label>
@@ -43,8 +183,30 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="description">Açıklama</label>
-          <textarea id="description" formControlName="description" placeholder="Arıza açıklamasını girin..."></textarea>
+          <label for="description">Arıza Açıklaması</label>
+          <select id="description" formControlName="description" placeholder="Arıza açıklamasını girin...">
+            <option value="enjektör arızası">Enjektör arızası</option>
+            <option value="yakıt pompası arızası">Yakıt pompası arızası</option>
+            <option value="turbo arızası">Turbo arızası</option>
+            <option value="partikül filtresi (DPF) tıkanıklığı">Partikül filtresi (DPF) tıkanıklığı</option>
+            <option value="EGR valfi arızası">EGR valfi arızası</option>
+            <option value="hava akışmetre (MAF) sensörü arızası">Hava akışmetre (MAF) sensörü arızası</option>
+            <option value="yakıt filtresi tıkanması">Yakıt filtresi tıkanması</option>
+            <option value="soğutma sistemi arızası">Soğutma sistemi arızası</option>
+            <option value="motor beyni (ECU) arızası">Motor beyni (ECU) arızası</option>
+            <option value="krank sensörü arızası">Krank sensörü arızası</option>
+            <option value="kam mili sensörü arızası">Kam mili sensörü arızası</option>
+            <option value="ısıtma bujileri (glow plug) arızası">Isıtma bujileri (glow plug) arızası</option>
+            <option value="egzoz basınç sensörü arızası">Egzoz basınç sensörü arızası</option>
+            <option value="yakıt enjektör geri dönüş sızıntısı">Yakıt enjektör geri dönüş sızıntısı</option>
+            <option value="common rail sistem basınç düşüklüğü">Common rail sistem basınç düşüklüğü</option>
+            <option value="yakıt hattı hava yapması">Yakıt hattı hava yapması</option>
+            <option value="motor yağ basınç sensörü arızası">Motor yağ basınç sensörü arızası</option>
+            <option value="soğukta zor çalışma">Soğukta zor çalışma</option>
+            <option value="rölanti dalgalanması">Rölanti dalgalanması</option>
+            <option value="beyaz/siyah egzoz dumanı">Beyaz/siyah egzoz dumanı</option>
+            <option value="bilinmeyen arıza">Bilinmeyen arıza</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="isReplaced">Parça Değiştirildi mi?</label>

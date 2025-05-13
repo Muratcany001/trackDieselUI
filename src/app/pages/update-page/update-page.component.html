@@ -1,59 +1,104 @@
 <div class="container my-4">
-    <h2 class="mb-4">Araç Güncelleme Sayfası</h2>
-  
-    <div *ngIf="message" class="alert" [ngClass]="{'alert-success': message.includes('başarıyla'), 'alert-danger': !message.includes('başarıyla')}">
-      {{ message }}
-    </div>
-  
-    <form [formGroup]="updateForm" (ngSubmit)="updateCar()">
-      <div class="mb-3">
-        <label for="plateNumber" class="form-label">Plaka Numarası</label>
-        <input type="text" id="plateNumber" class="form-control" formControlName="plateNumber" required>
-        <div *ngIf="updateForm.get('plateNumber')?.invalid && updateForm.get('plateNumber')?.touched" class="text-danger">
-          Plaka numarası gereklidir
-        </div>
-      </div>
-  
-      <div class="mb-3">
-        <label for="partName" class="form-label">Parça Adı</label>
-        <input type="text" id="partName" class="form-control" formControlName="partName" required>
-        <div *ngIf="updateForm.get('partName')?.invalid && updateForm.get('partName')?.touched" class="text-danger">
-          Parça adı gereklidir
-        </div>
-      </div>
-  
-      <div class="mb-3">
-        <label for="description" class="form-label">Açıklama</label>
-        <textarea id="description" class="form-control" formControlName="description" rows="3" required></textarea>
-        <div *ngIf="updateForm.get('description')?.invalid && updateForm.get('description')?.touched" class="text-danger">
-          Açıklama gereklidir
-        </div>
-      </div>
-  
-      <div class="mb-3 form-check">
-        <input type="checkbox" id="isReplaced" class="form-check-input" formControlName="isReplaced">
-        <label class="form-check-label" for="isReplaced">Parça Değiştirildi mi?</label>
-      </div>
-  
-      <div class="mb-3">
-        <label for="dateReported" class="form-label">Bildirim Tarihi</label>
-        <input type="date" id="dateReported" class="form-control" formControlName="dateReported" required>
-        <div *ngIf="updateForm.get('dateReported')?.invalid && updateForm.get('dateReported')?.touched" class="text-danger">
-          Bildirim tarihi gereklidir
-        </div>
-      </div>
-  
-      <div class="mb-3">
-        <label for="lastMaintenanceDate" class="form-label">Son Bakım Tarihi</label>
-        <input type="date" id="lastMaintenanceDate" class="form-control" formControlName="lastMaintenanceDate" required>
-        <div *ngIf="updateForm.get('lastMaintenanceDate')?.invalid && updateForm.get('lastMaintenanceDate')?.touched" class="text-danger">
-          Son bakım tarihi gereklidir
-        </div>
-      </div>
-  
-      <button type="submit" class="btn btn-primary" [disabled]="updateForm.invalid || isLoading">
-        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-        Güncelle
-      </button>
-    </form>
+  <h2 class="mb-4">Araç Güncelleme Sayfası</h2>
+
+  <div *ngIf="message" class="alert" [ngClass]="{'alert-success': message.includes('başarıyla'), 'alert-danger': !message.includes('başarıyla')}">
+    {{ message }}
   </div>
+
+  <form [formGroup]="updateForm" (ngSubmit)="updateCar()">
+    
+    <!-- Plaka -->
+    <div class="mb-3">
+      <label for="plateNumber" class="form-label">Plaka girin</label>
+      <input type="text" id="plateNumber" placeholder="Araç plakası girin" class="form-control" formControlName="plateNumber" required>
+      <div *ngIf="updateForm.get('plateNumber')?.invalid && updateForm.get('plateNumber')?.touched" class="text-danger">
+        Plaka numarası gereklidir
+      </div>
+    </div>
+
+    <!-- Parça Adı -->
+    <div class="mb-3">
+      <label for="partName" class="form-label">Parça Adı</label>
+      <select id="partName" class="form-control" formControlName="partName" required>
+        <option value="" disabled selected>Arızalı parçayı seçin</option>
+        <option value="enjektör">Enjektör</option>
+        <option value="Turbo">Turbo</option>
+        <option value="Sensör">Sensör</option>
+        <option value="Pompa">Pompa</option>
+        <option value="Bilinmeyen arıza">Bilinmeyen arıza</option>
+      </select>
+      <div *ngIf="updateForm.get('partName')?.invalid && updateForm.get('partName')?.touched" class="text-danger">
+        Parça adı gereklidir
+      </div>
+    </div>
+
+    <!-- Parça Değiştirildi mi -->
+    <div class="mb-3">
+      <label for="isReplaced" class="form-label">Parça Değiştirildi mi?</label>
+      <select id="isReplaced" class="form-control" formControlName="isReplaced" required>
+        <option value="" disabled selected>Seçiniz</option>
+        <option [ngValue]="true">Evet</option>
+        <option [ngValue]="false">Hayır</option>
+      </select>
+      <div *ngIf="updateForm.get('isReplaced')?.invalid && updateForm.get('isReplaced')?.touched" class="text-danger">
+        Parça değiştirildi mi? seçeneği gereklidir
+      </div>
+    </div>
+
+    <!-- Açıklama -->
+    <div class="mb-3">
+      <label for="description" class="form-label">Açıklama</label>
+      <select id="description" class="form-control" formControlName="description" required>
+        <option value="" disabled selected>Açıklama seçin</option>
+        <option value="enjektör arızası">Enjektör arızası</option>
+        <option value="yakıt pompası arızası">Yakıt pompası arızası</option>
+        <option value="turbo arızası">Turbo arızası</option>
+        <option value="partikül filtresi (DPF) tıkanıklığı">Partikül filtresi (DPF) tıkanıklığı</option>
+        <option value="EGR valfi arızası">EGR valfi arızası</option>
+        <option value="hava akışmetre (MAF) sensörü arızası">Hava akışmetre (MAF) sensörü arızası</option>
+        <option value="yakıt filtresi tıkanması">Yakıt filtresi tıkanması</option>
+        <option value="soğutma sistemi arızası">Soğutma sistemi arızası</option>
+        <option value="motor beyni (ECU) arızası">Motor beyni (ECU) arızası</option>
+        <option value="krank sensörü arızası">Krank sensörü arızası</option>
+        <option value="kam mili sensörü arızası">Kam mili sensörü arızası</option>
+        <option value="ısıtma bujileri (glow plug) arızası">Isıtma bujileri (glow plug) arızası</option>
+        <option value="egzoz basınç sensörü arızası">Egzoz basınç sensörü arızası</option>
+        <option value="yakıt enjektör geri dönüş sızıntısı">Yakıt enjektör geri dönüş sızıntısı</option>
+        <option value="common rail sistem basınç düşüklüğü">Common rail sistem basınç düşüklüğü</option>
+        <option value="yakıt hattı hava yapması">Yakıt hattı hava yapması</option>
+        <option value="motor yağ basınç sensörü arızası">Motor yağ basınç sensörü arızası</option>
+        <option value="soğukta zor çalışma">Soğukta zor çalışma</option>
+        <option value="rölanti dalgalanması">Rölanti dalgalanması</option>
+        <option value="beyaz/siyah egzoz dumanı">Beyaz/siyah egzoz dumanı</option>
+        <option value="bilinmeyen arıza">Bilinmeyen arıza</option>
+      </select>
+      <div *ngIf="updateForm.get('description')?.invalid && updateForm.get('description')?.touched" class="text-danger">
+        Açıklama gereklidir
+      </div>
+    </div>
+
+    <!-- Bildirim Tarihi -->
+    <div class="mb-3">
+      <label for="dateReported" class="form-label">Bildirim Tarihi</label>
+      <input type="date" id="dateReported" class="form-control" formControlName="dateReported" required>
+      <div *ngIf="updateForm.get('dateReported')?.invalid && updateForm.get('dateReported')?.touched" class="text-danger">
+        Bildirim tarihi gereklidir
+      </div>
+    </div>
+
+    <!-- Son Bakım Tarihi -->
+    <div class="mb-3">
+      <label for="lastMaintenanceDate" class="form-label">Son Bakım Tarihi</label>
+      <input type="date" id="lastMaintenanceDate" class="form-control" formControlName="lastMaintenanceDate" required>
+      <div *ngIf="updateForm.get('lastMaintenanceDate')?.invalid && updateForm.get('lastMaintenanceDate')?.touched" class="text-danger">
+        Son bakım tarihi gereklidir
+      </div>
+    </div>
+
+    <!-- Gönder Butonu -->
+    <button type="submit" class="btn btn-primary" [disabled]="updateForm.invalid || isLoading">
+      <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      Güncelle
+    </button>
+  </form>
+</div>

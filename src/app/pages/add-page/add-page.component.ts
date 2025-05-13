@@ -74,15 +74,22 @@ export class AddPageComponent implements OnInit {
           console.error('Hata:', error);
           if (error.error) {
             console.error('Hata Detayları:', error.error);
+          // Eğer hata mesajı "Bu plakaya sahip bir araç zaten sistemde mevcut" ise
+          if (error.error.includes('Bu plakaya sahip bir araç zaten sistemde mevcut')) {
+            alert('Bu plakaya sahip bir araç zaten sistemde mevcut.');
+          } else {
+            alert('Hata oluştu: ' + (error.error?.message || error.message));
           }
-          alert('Hata oluştu: ' + (error.error?.message || error.message));
-        },
-        complete: () => {
-          this.loading = false;
+        } else {
+          alert('Hata oluştu: ' + error.message);
         }
-      });
-    } else {
-      alert('Lütfen tüm zorunlu alanları doldurun');
-    }
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  } else {
+    alert('Lütfen tüm zorunlu alanları doldurun');
+  }
   }
 }

@@ -19,7 +19,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   brokenParts: string = '';
   message: string = '';
   isLoading: boolean = true;
-  geminiApiKey: string = 'AIzaSyALNpVC6NG3F_Or6iDRC3jVCE20qWpPPl8';
+  geminiApiKey: string = '';
   MostCode: any[] = [];
   PartCode: any[] = [];
   description: string = '';
@@ -158,7 +158,7 @@ ${brokenPartsText}
 
       İstenen çıktı formatı:
       Cevaba "Analiz sonuçları:" Diyerek başla
-      1. 1 ay içerisinde en çok karşılaşılan 3 arızalı parçayı listele Bu madde 2. Maddenin sadece 1 ay içerisindeki halidir.
+      1. 1 ay içerisinde en çok karşılaşılan 3 arızalı parçayı listele Bu madde 2. Maddenin sadece 1 ay içerisindeki halidir. örnek: mercedes c200 dizel turbo
       2. Ayrıca son 1 ay içerisinde en sık karşılaşılan 3 problemi ver. dateReport adlı öznitelikten çek bu verileri ve analiz yap. Örnek: çekiş düşüklüğü, gaz yememe sorunu, conta patlatma
       3. Tüm zamanlarda Araç modeli ve motor tipine göre en çok arızalanan 3 parçayı belirt. Format: “Model Motor Parça” (örnek: Passat Dizel Turbo).
       4. Yanıtını kısa ve öz tut, hikaye anlatma

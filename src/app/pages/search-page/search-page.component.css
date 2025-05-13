@@ -14,6 +14,7 @@
   background: #f5f5f5;
   border-radius: 8px;
 }
+
 /* Ana Container */
 .Info-Container {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -118,6 +119,7 @@
 .broken-part-info-panel {
   animation: fadeIn 0.5s ease-out;
 }
+
 .no-cars-message {
   text-align: center;
   padding: 40px;
@@ -277,14 +279,21 @@
     margin-bottom: 20px;
   }
 
-  ai-panel {
-    padding: 20px;
-    background-color: #f0f4fa;
-    color: #212121;
-    font-size: 15px;
+  .ai-panel {
+    background-color: #eef4ff;
+    padding: 15px;
+    border-left: 4px solid #4a90e2;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #333;
     line-height: 1.6;
-    white-space: pre-wrap;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Roboto', sans-serif;  /* Daha rahat okunabilir bir font */
+    font-size: 1.1rem; /* Font boyutunu biraz büyütelim */
+  }
+  
+  .ai-panel span {
+    display: block;  /* Her span elementini blok olarak alıp alt alta yazalım */
+    margin-bottom: 10px; /* Her satır arasında boşluk bırakalım */
   }
   
   .ai-panel:hover {
