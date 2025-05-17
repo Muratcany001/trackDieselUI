@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ApiService } from '../../restApiService/api.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { catchError, map, of, Subject, takeUntil, tap, throwError } from 'rxjs';
+import { catchError, count, map, Observable, of, Subject, takeUntil, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -24,6 +24,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   PartCode: any[] = [];
   description: string = '';
   isSuccess: boolean = false;
+  carCount:number = 0;
 
   private destroy$ = new Subject<void>();
 
@@ -31,13 +32,12 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadCars();
+    this.getCarCount();
   }
-
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
   loadCars() {
     // 1. Common Problems
     this.apiService.MostCommonProblems()
@@ -114,6 +114,18 @@ export class SearchPageComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  getCarCount(){
+    this.apiService.getCarCount().subscribe(
+      count => {
+        console.log("Araç sayısı",count)
+        this.carCount= Number(count);
+      },
+      error => {
+        console.log("Karşılaşılan hata:",error)
+      }
+    )
+  }
   checkIfDataReady() {
     if (this.CommonProblems.length > 0 && this.MostBrokenParts.length > 0) {
       this.fetchErrorFromGemini(this.CommonProblems, this.MostBrokenParts).subscribe({
@@ -184,6 +196,7 @@ ${brokenPartsText}
         }
       }[];
     }
+    
 
     return this.http.post<GeminiResponse>(apiUrl, requestBody).pipe(
       map(response => {
