@@ -75,35 +75,33 @@ export class AddPageComponent implements OnInit {
     
     this.apiService.getAllParts().subscribe({
       next: (response: any) => {
-        console.log('API parça yanıtı:', response); // API yanıtını logla
+        console.log('API parça yanıtı:', response);
         
-        // API'den gelen yanıtı uygun şekilde işle
         if (response && response.$values) {
           this.availableParts = response.$values;
         } else if (Array.isArray(response)) {
           this.availableParts = response;
         } else {
-          // Eğer beklenmeyen bir yanıt formatı ise bunu logla
           console.warn('Beklenmeyen API yanıt formatı:', response);
           this.availableParts = [];
         }
         
-        // Parçaları doğru şekilde işlemek için kontrol et
-        this.availableParts = this.availableParts.map(part => {
-          // Eksik özellikleri kontrol et ve doldur
-          if (!part.id) console.warn('Parça ID bulunamadı:', part);
-          if (!part.name) console.warn('Parça adı bulunamadı:', part);
-          if (part.count === undefined || part.count === null) {
-            console.warn('Parça count bulunamadı, varsayılan olarak 0 kullanılıyor:', part);
-            part.count = 0;
-          }
-          
-          return {
-            ...part,
-            // String ise sayıya çevir
-            count: typeof part.count === 'string' ? parseInt(part.count, 10) : part.count
-          };
-        });
+        // Parçaları doğru şekilde işlemek için kontrol et ve stokta olmayanları filtrele
+        this.availableParts = this.availableParts
+          .map(part => {
+            if (!part.id) console.warn('Parça ID bulunamadı:', part);
+            if (!part.name) console.warn('Parça adı bulunamadı:', part);
+            if (part.count === undefined || part.count === null) {
+              console.warn('Parça count bulunamadı, varsayılan olarak 0 kullanılıyor:', part);
+              part.count = 0;
+            }
+            
+            return {
+              ...part,
+              count: typeof part.count === 'string' ? parseInt(part.count, 10) : part.count
+            };
+          })
+          .filter(part => part.count > 0); // Sadece stokta olan parçaları göster
         
         this.filteredParts = [];
         this.loadingParts = false;

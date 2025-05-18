@@ -33,17 +33,72 @@
     </div>
 
     <!-- Parça Değiştirildi mi -->
-    <div class="mb-3">
-      <label for="isReplaced" class="form-label">Parça Değiştirildi mi?</label>
-      <select id="isReplaced" class="form-control" formControlName="isReplaced" required>
-        <option value="" disabled selected>Seçiniz</option>
-        <option [ngValue]="true">Evet</option>
-        <option [ngValue]="false">Hayır</option>
+    <div class="form-group">
+      <label for="isReplaced">Parça Değiştirildi mi?</label>
+      <select id="isReplaced" formControlName="isReplaced">
+        <option value="true">Evet</option>
+        <option value="false">Hayır</option>
       </select>
-      <div *ngIf="updateForm.get('isReplaced')?.invalid && updateForm.get('isReplaced')?.touched" class="text-danger">
-        Parça değiştirildi mi? seçeneği gereklidir
-      </div>
     </div>
+    
+    <!-- Parça seçimi veya manuel girişi -->
+    <div *ngIf="updateForm.get('isReplaced')?.value === 'true'" class="part-selection-panel">
+      <div class="form-group">
+        <label>Parça Bilgileri:</label>
+        
+        <!-- Parça Adı Girişi ve Otomatik Tamamlama -->
+        <div class="form-group">
+          <label for="manualPartName">Parça Adı:</label>
+          <input type="text" 
+                id="manualPartName"
+                formControlName="partName"
+                placeholder="Parça adını giriniz"
+                (input)="onPartSearch($event)"
+                [readonly]="selectedPart !== null">
+          
+          <!-- Otomatik Tamamlama Listesi -->
+          <div *ngIf="filteredParts.length > 0 && !selectedPart" class="autocomplete-list">
+            <div *ngFor="let part of filteredParts" 
+                class="autocomplete-item"
+                (click)="selectPart(part)">
+              <span class="part-name">{{ part.name }}</span>
+              <span class="part-stock">(Stok: {{ part.count }} adet)</span>
+            </div>
+          </div>
+          <div *ngIf="filteredParts.length === 0 && updateForm.get('partName')?.value && !selectedPart" class="no-parts-message">
+            Bu parça sistemde kayıtlı değil. Lütfen başka bir parça adı giriniz.
+          </div>
+          <div *ngIf="updateForm.get('partName')?.invalid && updateForm.get('partName')?.touched" class="error-message">
+            Parça adı gereklidir.
+          </div>
+        </div>
+
+        <!-- Parça Miktarı Girişi -->
+        <div class="form-group" *ngIf="selectedPart">
+          <label for="quantity">Kullanılacak Adet:</label>
+          <input type="number" 
+                id="quantity"
+                formControlName="quantity"
+                placeholder="Kullanılacak parça adedini giriniz"
+                min="1"
+                [max]="selectedPart.count"
+                (change)="validateQuantity()">
+          <div class="stock-info">
+            Stokta {{ selectedPart.count }} adet bulunmaktadır.
+          </div>
+          <div *ngIf="updateForm.get('quantity')?.invalid && updateForm.get('quantity')?.touched" class="error-message">
+            Geçerli bir miktar giriniz.
+          </div>
+        </div>
+
+        <!-- Parça Seçimini Sıfırlama Butonu -->
+        <div *ngIf="selectedPart" class="form-group">
+          <button type="button" class="reset-button" (click)="resetPartSelection()">
+            Parça Seçimini Sıfırla
+          </button>
+        </div>
+      </div>
+    </div>   
 
     <!-- Açıklama -->
     <div class="mb-3">
@@ -76,7 +131,6 @@
         Açıklama gereklidir
       </div>
     </div>
-
     <!-- Bildirim Tarihi -->
     <div class="mb-3">
       <label for="dateReported" class="form-label">Bildirim Tarihi</label>

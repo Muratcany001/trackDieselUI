@@ -24,7 +24,7 @@
           <li *ngFor="let issue of carDetails.errorHistory">
             <p><strong>Arıza Tarihi:</strong> {{ issue.dateReported | date: 'dd/MM/yyyy HH:mm' }}</p>
             <p><strong>Arıza Açıklaması:</strong> {{ issue.description }}</p>
-            <p><strong>Tamir edilen parça:</strong> {{ issue.partName }}</p>
+            <p><strong>Arızalı parça:</strong> {{ issue.partName }}</p>
             <p><strong>Parça değiştirildi mi?:</strong>
               <span [ngClass]="issue.isReplaced ? 'replaced' : 'not-replaced'">
                 {{ issue.isReplaced ? 'Parça değiştirildi' : 'Parça değiştirilmedi' }}
