@@ -50,7 +50,7 @@ export class AddPageComponent implements OnInit {
       quantity: new FormControl({value: 1, disabled: true}, [Validators.required, Validators.min(1)])
     });
   }
-
+  
   onPartReplacedChange(isReplaced: boolean): void {
     // Reset states first
     this.resetPartSelection();
@@ -72,20 +72,42 @@ export class AddPageComponent implements OnInit {
 
   loadAvailableParts(): void {
     this.loadingParts = true;
+    
     this.apiService.getAllParts().subscribe({
       next: (response: any) => {
+        console.log('API parça yanıtı:', response); // API yanıtını logla
+        
         // API'den gelen yanıtı uygun şekilde işle
         if (response && response.$values) {
           this.availableParts = response.$values;
         } else if (Array.isArray(response)) {
           this.availableParts = response;
         } else {
+          // Eğer beklenmeyen bir yanıt formatı ise bunu logla
+          console.warn('Beklenmeyen API yanıt formatı:', response);
           this.availableParts = [];
         }
         
+        // Parçaları doğru şekilde işlemek için kontrol et
+        this.availableParts = this.availableParts.map(part => {
+          // Eksik özellikleri kontrol et ve doldur
+          if (!part.id) console.warn('Parça ID bulunamadı:', part);
+          if (!part.name) console.warn('Parça adı bulunamadı:', part);
+          if (part.count === undefined || part.count === null) {
+            console.warn('Parça count bulunamadı, varsayılan olarak 0 kullanılıyor:', part);
+            part.count = 0;
+          }
+          
+          return {
+            ...part,
+            // String ise sayıya çevir
+            count: typeof part.count === 'string' ? parseInt(part.count, 10) : part.count
+          };
+        });
+        
         this.filteredParts = [];
         this.loadingParts = false;
-
+  
         if (this.availableParts.length === 0 && this.carForm.get('isReplaced')?.value === 'true') {
           alert('Sistemde kayıtlı değiştirilebilecek parça bulunamadı!');
         }
@@ -152,7 +174,6 @@ export class AddPageComponent implements OnInit {
 
     // Minimum 1 olmalı
     if (quantity < 1) {
-      quantity = 1;
       quantityControl.setValue(1);
     }
 
@@ -220,11 +241,25 @@ export class AddPageComponent implements OnInit {
     // Form geçerliliğini kontrol et
     if (this.carForm.invalid || this.loading) {
       this.markFormGroupTouched(this.carForm);
-      alert('Lütfen tüm zorunlu alanları doğru şekilde doldurun.');
+      
+      // Hangi alanların eksik olduğunu tespit et ve göster
+      const invalidControls: string[] = [];
+      Object.keys(this.carForm.controls).forEach(key => {
+        const control = this.carForm.get(key);
+        if (control?.invalid) {
+          invalidControls.push(key);
+        }
+      });
+      
+      console.error('Form geçersiz. Eksik alanlar:', invalidControls);
+      alert(`Lütfen tüm zorunlu alanları doğru şekilde doldurun. Eksik alanlar: ${invalidControls.join(', ')}`);
       return;
     }
 
+    // Form değerlerini al
     const formValue = this.carForm.getRawValue();
+    console.log('Form değerleri:', formValue);
+    
     const userId = this.authService.getCurrentUserId();
 
     if (!userId) {
@@ -232,6 +267,7 @@ export class AddPageComponent implements OnInit {
       return;
     }
 
+    // Boolean tipine çevir: 'true' veya 'false' string değerleri yerine gerçek boolean değer kullan
     const isReplaced = formValue.isReplaced === 'true';
 
     // Parça değiştirilecekse ancak parça seçilmediyse hata ver
@@ -256,17 +292,26 @@ export class AddPageComponent implements OnInit {
       return;
     }
 
+    
+
     // Issue verisini hazırla
     const issueData: Issue = {
-      id: 0, // Make sure this property exists if backend expects it
+      id: 0,
       model: formValue.model,
       engineType: formValue.engineType,
       partName: isReplaced ? (this.selectedPart?.name || '') : formValue.partName,
-      description: formValue.description,
+      description: formValue.description || 'Bilinmeyen arıza',
       dateReported: dateReported,
       isReplaced: isReplaced,
-      carId: 0 // Backend tarafında atanacak
+      carId: 0
     };
+
+    // Description kontrolü
+    if (!issueData.description) {
+      console.error('Description alanı boş:', formValue);
+      alert('Arıza açıklaması gereklidir. Lütfen bir açıklama seçin.');
+      return;
+    }
 
     // Parça değiştirilecekse ek bilgileri ekle
     if (isReplaced && this.selectedPart && this.selectedPart.id) {
@@ -287,17 +332,64 @@ export class AddPageComponent implements OnInit {
     };
 
     console.log("Gönderilen veri:", JSON.stringify(carData, null, 2));
-
+    
     this.loading = true;
     this.apiService.addCar(carData).subscribe({
       next: (response) => {
-        console.log('Başarılı:', response);
-        alert("Araç başarıyla eklendi");
-        this.resetForm();
-        this.loading = false;
+        console.log('Araç başarıyla eklendi:', response);
+        
+        // Sadece araç ekleme başarılı ve parça değişimi yapılacaksa stok güncellemesi yap
+        if (isReplaced && this.selectedPart && this.selectedPart.id && formValue.quantity) {
+          // Numeric değerlere çevir
+          const quantityToUse = Number(formValue.quantity);
+          const partId = Number(this.selectedPart.id); // ID'nin numerik olduğundan emin ol
+          const currentCount = Number(this.selectedPart.count);
+          const newCount = currentCount - quantityToUse;
+          
+          if (newCount < 0) {
+            console.error('Yeni stok negatif olamaz!');
+            alert(`Stok hatası: ${currentCount} - ${quantityToUse} = ${newCount}`);
+            this.loading = false;
+            return;
+          }
+          
+          console.log(`Stok güncelleniyor: ID=${partId}, Mevcut=${currentCount}, Kullanılan=${quantityToUse}, Yeni=${newCount}`);
+          
+          this.apiService.updatePart(partId, { count: newCount }).subscribe({
+            next: (updatedStock) => {
+              console.log('Stok güncellendi:', updatedStock);
+              alert("Araç başarıyla eklendi ve stok güncellendi.");
+              this.resetForm();
+              this.loading = false;
+            },
+            error: (err) => {
+              console.error('Stok güncelleme hatası detayları:', {
+                error: err,
+                partId: partId,
+                newCount: newCount,
+                requestData: { id: partId, count: newCount }
+              });
+              
+              let errorMessage = 'Stok güncellenirken hata oluştu!';
+              if (err.error) {
+                if (typeof err.error === 'string') {
+                  errorMessage += `\nHata: ${err.error}`;
+                } else if (err.error.message) {
+                  errorMessage += `\nHata: ${err.error.message}`;
+                }
+              }
+              alert(errorMessage);
+              this.loading = false;
+            }
+          });
+        } else {
+          alert("Araç başarıyla eklendi.");
+          this.resetForm();
+          this.loading = false;
+        }
       },
       error: (error) => {
-        console.error('Hata:', error);
+        console.error('Araç ekleme hatası:', error);
         let errorMessage = 'Araç eklenirken bir hata oluştu.';
         
         if (error.error) {
@@ -314,7 +406,6 @@ export class AddPageComponent implements OnInit {
         } else if (error.message) {
           errorMessage = error.message;
         }
-        
         alert(errorMessage);
         this.loading = false;
       }
@@ -333,15 +424,11 @@ export class AddPageComponent implements OnInit {
     console.log('lastMaintenanceDate:', formValue.lastMaintenanceDate);
     console.log('dateReported:', formValue.dateReported);
   }
-
-  // Tüm form kontrollerini touched olarak işaretle
-  markFormGroupTouched(formGroup: FormGroup) {
+  
+  markFormGroupTouched(formGroup: FormGroup): void {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();
-      
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      }
     });
   }
+  
 }

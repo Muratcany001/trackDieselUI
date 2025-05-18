@@ -12,10 +12,15 @@ interface LoginRequest {
 interface LoginResponse {
   token: string;
 }
+export interface Stock {
+  id?:number;
+  count:number;
+  userId?:number;
+}
 export interface Part {
   id?: number;
   name: string;
-  description: string;
+  description?: string;
   count: number;
   state: string;
   userId?: string;
@@ -23,7 +28,7 @@ export interface Part {
 export interface newError{
   id?: number;
   code:string;
-  description:string;
+  description?:string;
 }
 export interface WorstCars{
   id?:number;
@@ -35,7 +40,7 @@ export interface WorstCars{
 
 export interface updateIssues {
   PartName:String;
-  description:string;
+  description?:string;
   DateReported: Date;
 }
 export interface Car {
@@ -62,7 +67,7 @@ interface ApiResponse {
   $id: string;
   $values: Array<{
     $id: string;
-    description: string;
+    description?: string;
     userId: string;
     dateReported: Date | string;
     lastMaintenanceDate: Date |string;
@@ -277,10 +282,17 @@ export class ApiService {
       { headers: this.getAuthHeaders() }
     );
   }
-  updatePart(id: number, updatedPart: Part): Observable<Part> {
+  updatePart(id: number, partialData: { count?: number }): Observable<Part> {
     return this.http.patch<Part>(
-      `${this.apiUrl}/parts/UpdatePart/${id}`,
-      updatedPart,
+      `${this.apiUrl}/parts/UpdateStockAsync/${id}`,
+      {
+        id: id,
+        name: "string",
+        description: "string",
+        count: partialData.count || 0,
+        state: "string",
+        userId: "string"
+      },
       { headers: this.getAuthHeaders() }
     );
   }
@@ -297,10 +309,15 @@ export class ApiService {
       { headers: this.getAuthHeaders() }
     );
   }
-  updateStock(id: number, newCount: number): Observable<Part> {
-    return this.http.patch<Part>(
-      `${this.apiUrl}/parts/UpdateStock/${id}`,
-      { count: newCount },
+  updateStock(id: number, count: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/parts/UpdateStockAsync/${id}`, 
+      {
+        id: id,
+        count: count,
+        name: '', // Backend'de güncellenmeyecek
+        description: '', // Backend'de güncellenmeyecek
+        userId: '' // Backend'de güncellenecek
+      },
       { headers: this.getAuthHeaders() }
     );
   }
