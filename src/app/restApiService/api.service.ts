@@ -282,18 +282,27 @@ export class ApiService {
       { headers: this.getAuthHeaders() }
     );
   }
-  updatePart(id: number, partialData: { count?: number }): Observable<Part> {
+  updatePart(id: number, partialData: { count?: number, state?: string }): Observable<Part> {
+    console.log('API Service - Updating part:', { id, partialData }); // Debug için log
+    
+    // Gönderilecek veriyi hazırla
+    const requestData = {
+      id: id,
+      name: "string",
+      description: "string",
+      count: partialData.count || 0,
+      state: partialData.state || "active",
+      userId: "string"
+    };
+    
+    console.log('API Request Data:', requestData); // İstek verisini logla
+    
     return this.http.patch<Part>(
       `${this.apiUrl}/parts/UpdateStockAsync/${id}`,
-      {
-        id: id,
-        name: "string",
-        description: "string",
-        count: partialData.count || 0,
-        state: "string",
-        userId: "string"
-      },
+      requestData,
       { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(response => console.log('API Response:', response)) // API yanıtını logla
     );
   }
   deletePart(id: number): Observable<void> {
@@ -314,9 +323,9 @@ export class ApiService {
       {
         id: id,
         count: count,
-        name: '', // Backend'de güncellenmeyecek
-        description: '', // Backend'de güncellenmeyecek
-        userId: '' // Backend'de güncellenecek
+        name: '',
+        description: '',
+        userId: ''
       },
       { headers: this.getAuthHeaders() }
     );

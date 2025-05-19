@@ -1,1 +1,120 @@
-<p>stock works!</p>
+<div class="container">
+  <div class="header">
+    <h1>Stok Yönetimi</h1>
+  </div>
+
+  <div class="panel form-panel">
+    <h2>{{ isEditing ? 'Stok Güncelle' : 'Yeni Stok Ekle' }}</h2>
+    <form [formGroup]="stockForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Parça Adı</label>
+        <input type="text" id="name" formControlName="name" [readonly]="isEditing">
+        <div class="error-message" *ngIf="stockForm.get('name')?.invalid && stockForm.get('name')?.touched">
+          Parça adı zorunludur
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="description">Açıklama</label>
+        <textarea id="description" formControlName="description" rows="3"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="count">Stok Adedi</label>
+        <input type="number" id="count" formControlName="count" min="0">
+        <div class="error-message" *ngIf="stockForm.get('count')?.invalid && stockForm.get('count')?.touched">
+          Geçerli bir stok adedi girin
+        </div>
+      </div>
+      
+      <div class="form-group">
+        
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn primary-btn" [disabled]="stockForm.invalid">
+          {{ isEditing ? 'Güncelle' : 'Ekle' }}
+        </button>
+        <button type="button" class="btn secondary-btn" (click)="resetForm()">İptal</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel table-panel">
+    <div class="table-header">
+      <h2>Stok Listesi</h2>
+      <div class="search-container">
+        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearchInputChange()" placeholder="Parça ara..." class="search-input">
+      </div>
+      <div class="filter-options">
+        <label>
+          <input type="checkbox" [(ngModel)]="excludeZeroStock" (change)="applyFilters()">
+          Stok 0 olanları gizle
+        </label>
+      </div>
+      <button (click)="showBulkUpdateModal()" class="btn primary-btn">Toplu Güncelle</button>
+    </div>
+
+    <div class="table-responsive">
+      <table class="stock-table">
+        <thead>
+          <tr>
+            <th width="40">
+              <input type="checkbox" (change)="toggleAllParts($event)" placeholder="Parçalarım">
+            </th>
+            <th width="50">ID</th>
+            <th>Parça Adı</th>
+            <th>Açıklama</th>
+            <th width="100">Stok</th>
+            <th width="150">İşlemler</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let part of filteredParts">
+            <td><input type="checkbox" [(ngModel)]="part.selected" placeholder="seçilen parça"></td>
+            <td>{{ part.id }}</td>
+            <td>{{ part.name }}</td>
+            <td>{{ part.description }}</td>
+            <td>{{ part.count }}</td>
+            <td>
+            </td>
+            <td>
+              <button class="btn action-btn edit-btn" (click)="editPart(part)">Düzenle</button>
+              <button class="btn action-btn delete-btn" (click)="deletePart(part.id!)">Sil</button>
+            </td>
+          </tr>
+          <tr *ngIf="filteredParts.length === 0">
+            <td colspan="7" class="no-data">Kayıtlı parça bulunamadı</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Bulk Update Modal -->
+  <div class="modal" *ngIf="showBulkUpdate">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Toplu Stok Güncelleme</h2>
+        <button class="close-btn" (click)="closeBulkUpdateModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="bulkForm" (ngSubmit)="onBulkUpdate()">
+          <div class="form-group">
+            <label for="bulkCount">Stok Adedi</label>
+            <input type="number" id="bulkCount" formControlName="count" min="0">
+            <div class="error-message" *ngIf="bulkForm.get('count')?.invalid && bulkForm.get('count')?.touched">
+              Geçerli bir stok adedi girin
+            </div>
+          </div>
+          <div class="form-group">
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="btn primary-btn" [disabled]="bulkForm.invalid">Güncelle</button>
+            <button type="button" class="btn secondary-btn" (click)="closeBulkUpdateModal()">İptal</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

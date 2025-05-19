@@ -13,6 +13,7 @@ import { RegisterPageComponent } from './pages/register-page/register-page.compo
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { StockComponent } from './pages/stock/stock.component';
 
 export const routes: Routes = [
     {path : 'login', component:LoginComponent},
@@ -27,6 +28,7 @@ export const routes: Routes = [
     {path : 'registerPage', component:RegisterPageComponent},
     {path : 'errorPage', component:ErrorPageComponent},
     {path : 'logout', component:LogoutComponent},
+    {path : 'stock', component:StockComponent, canActivate:[authGuard]},
     {path : '**', component:NotFoundComponent},
     {path : '', redirectTo:'/mainPage', pathMatch: 'full'}
 ];
