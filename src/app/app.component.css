@@ -7,8 +7,8 @@
 
 body {
     font-family: 'Poppins', sans-serif; /* Modern yazı tipi */
-    background-color: #f4f6f9; /* Açık gri arka plan */
-    color: #333; /* Koyu gri metin rengi */
+    background-color: #1a1a1a; /* Açık siyah renk */
+    color: #ffffff; /* Metin rengini beyaz yaparak okunabilirliği artırıyorum */
     overflow-x: hidden;
 }
 
@@ -28,22 +28,21 @@ body {
     top: 0;
     left: 00;
     height: 100vh;
-
     width: 250px;
-    background-color: #ffffff;
+    background-color: #2a2a2a;
     border-radius: 20px; /* Daha yuvarlak köşeler */
     padding: 20px;
-    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1); /* Daha belirgin gölge */
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3); /* Daha belirgin gölge */
     transition: box-shadow 0.3s ease; /* Hover için animasyon */
 }
 
 .side-panel:hover {
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); /* Hoverda daha büyük gölge */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); /* Hoverda daha büyük gölge */
 }
 
 .side-panel h2 {
     font-size: 26px;
-    color: #2980b9;
+    color: #3498db;
     margin-left: 20px;
     font-weight: bold;
 }
@@ -58,7 +57,7 @@ body {
 
 .side-panel nav ul li a {
     text-decoration: none;
-    color: #2980b9;
+    color: #ffffff;
     font-size: 24px; /* Adjusted size for readability */
     font-weight: 600; /* Make the text bold for better legibility */
     line-height: 1.5; /* Improve line spacing */
@@ -69,8 +68,8 @@ body {
 }
 
 .side-panel nav ul li a:hover {
-    color: #16a085; /* Hover rengi */
-    background-color: rgba(52,152,219,0.1);
+    color: #3498db;
+    background-color: rgba(52, 152, 219, 0.2);
     transform: translateX(10px);
 }
 
@@ -88,10 +87,10 @@ body {
     width: 100%;
     max-width: 600px;
     height: 150px;
-    background-color: #ffffff;
+    background-color: #2a2a2a;
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
     margin-bottom: 40px;
     display: flex;
     flex-direction: column;
@@ -102,7 +101,7 @@ body {
 }
 
 .plate-entry:hover {
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); /* Hoverda daha büyük gölge */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 
 .plate-entry input {
@@ -112,13 +111,15 @@ body {
     margin-bottom: 15px;
     padding-left: 15px;
     border-radius: 10px;
-    border: 1px solid #d5d9e0;
+    border: 1px solid #404040;
+    background-color: #333333;
+    color: #ffffff;
     outline: none;
     transition: all 0.3s ease;
 }
 
 .plate-entry input:focus {
-    border-color: #3498db; /* Odaklanınca mavi renk */
+    border-color: #3498db;
     box-shadow: 0 0 10px 2px rgba(52, 152, 219, 0.2);
 }
 
@@ -127,7 +128,7 @@ body {
     padding: 12px 20px;
     font-size: 20px;
     border-radius: 8px;
-    border: 1px solid #d5d9e0;
+    border: none;
     outline: none;
     background-color: #3498db;
     color: white;
@@ -147,25 +148,25 @@ body {
 
 /* Veritabanı Bilgisi Paneli */
 .info-panel {
-    background-color: #ffffff;
+    background-color: #2a2a2a;
     padding: 30px;
     border-radius: 20px;
     width: 100%;
     max-width: 1000px;
-    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.3);
     margin-bottom: 40px;
 }
 
 .info-panel h3 {
     font-size: 34px;
-    color: #2980b9;
+    color: #3498db;
     margin-bottom: 20px;
     font-weight: bold;
 }
 
 .info-panel p {
     font-size: 18px;
-    color: #7f8c8d;
+    color: #cccccc;
     line-height: 1.6;
 }
 
@@ -190,3 +191,12 @@ body {
         max-width: 100%;
     }
 }
+
+:host {
+    display: block;
+    min-height: 100vh;
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+/* Diğer stiller buraya eklenebilir */

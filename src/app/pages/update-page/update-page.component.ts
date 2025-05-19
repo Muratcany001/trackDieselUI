@@ -37,6 +37,8 @@ export class UpdatePageComponent implements OnInit {
         plateNumber : ['',Validators.required],
         partName : ['',Validators.required],
         description:['',Validators.required],
+        faultyPartName: new FormControl({value: '', disabled: false}, Validators.required),
+        stockPartName: new FormControl({value: '', disabled: false}, Validators.required),
         isReplaced: [false, Validators.required],
         dateReported: ['',Validators.required],
         lastMaintenanceDate: ['', Validators.required],
@@ -117,7 +119,7 @@ export class UpdatePageComponent implements OnInit {
             this.apiService.updatePart(partId, { count: newCount }).subscribe({
               next: (updatedStock) => {
                 console.log('Stok güncellendi:', updatedStock);
-                this.message = 'Araç ve stok başarıyla güncellendi';
+                alert("Araç güncellendi")
                 this.isLoading = false;
                 this.loadAvailableParts(); // Parça listesini yenile
               },

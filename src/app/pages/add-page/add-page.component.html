@@ -172,8 +172,7 @@
       </div>
       <div class="form-group">
         <label for="partName">Parça Adı</label>
-        <!-- Çoklu seçim için de "multiple" kullanabilirsiniz; burada tek değer için düzenlendi -->
-        <select id="partName" formControlName="partName">
+        <select id="partName" formControlName="stockPartName">
           <option value="enjektör">Enjektör</option>
           <option value="Turbo">Turbo</option>
           <option value="Sensör">Sensör</option>
@@ -225,7 +224,7 @@
             <label for="manualPartName">Parça Adı:</label>
             <input type="text" 
                   id="manualPartName"
-                  formControlName="partName"
+                  formControlName="faultyPartName"
                   placeholder="Parça adını giriniz"
                   (input)="onPartSearch($event)"
                   [readonly]="selectedPart !== null">

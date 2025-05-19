@@ -43,7 +43,8 @@ export class AddPageComponent implements OnInit {
       lastMaintenanceDate: new FormControl('', Validators.required),
       model: new FormControl('', Validators.required),
       engineType: new FormControl('', Validators.required),
-      partName: new FormControl({value: '', disabled: false}, Validators.required),
+      faultyPartName: new FormControl({value: '', disabled: false}, Validators.required),
+      stockPartName: new FormControl({value: '', disabled: false}, Validators.required),
       description: new FormControl('', Validators.required),
       dateReported: new FormControl('', Validators.required),
       isReplaced: new FormControl('false', Validators.required),
@@ -52,19 +53,16 @@ export class AddPageComponent implements OnInit {
   }
   
   onPartReplacedChange(isReplaced: boolean): void {
-    // Reset states first
     this.resetPartSelection();
     
     if (isReplaced) {
-      // Parça değiştirilecekse
       this.loadAvailableParts();
       this.showPartSelectionPanel = true;
-      this.carForm.get('partName')?.enable(); // Arama yapmak için enable et
+      this.carForm.get('stockPartName')?.enable();
       this.carForm.get('quantity')?.enable();
     } else {
-      // Parça değiştirilmeyecekse
       this.showPartSelectionPanel = false;
-      this.carForm.get('partName')?.enable(); // Serbest seçim için enable et
+      this.carForm.get('stockPartName')?.enable();
       this.carForm.get('quantity')?.disable();
       this.carForm.get('quantity')?.setValue(1);
     }
@@ -143,7 +141,7 @@ export class AddPageComponent implements OnInit {
     
     // Form alanlarını güncelle
     this.carForm.patchValue({
-      partName: part.name,
+      stockPartName: part.name,
       quantity: 1
     });
     
@@ -190,7 +188,7 @@ export class AddPageComponent implements OnInit {
     // Parça değiştirilecekse inputu temizle
     if (this.carForm.get('isReplaced')?.value === 'true') {
       this.carForm.patchValue({
-        partName: '',
+        stockPartName: '',
         quantity: 1
       });
     }
@@ -204,7 +202,8 @@ export class AddPageComponent implements OnInit {
       lastMaintenanceDate: '',
       model: '',
       engineType: '',
-      partName: '',
+      faultyPartName: '',
+      stockPartName: '',
       description: '',
       dateReported: '',
       isReplaced: 'false',
@@ -213,7 +212,7 @@ export class AddPageComponent implements OnInit {
     
     this.resetPartSelection();
     this.showPartSelectionPanel = false;
-    this.carForm.get('partName')?.enable();
+    this.carForm.get('stockPartName')?.enable();
     this.carForm.get('quantity')?.disable();
   }
 
@@ -297,7 +296,7 @@ export class AddPageComponent implements OnInit {
       id: 0,
       model: formValue.model,
       engineType: formValue.engineType,
-      partName: isReplaced ? (this.selectedPart?.name || '') : formValue.partName,
+      partName: isReplaced ? (this.selectedPart?.name || '') : formValue.stockPartName,
       description: formValue.description || 'Bilinmeyen arıza',
       dateReported: dateReported,
       isReplaced: isReplaced,

@@ -187,8 +187,6 @@ export class StockComponent implements OnInit {
     this.isEditing = false;
     this.selectedPart = null;
   }
-
-  // Canlı arama tetikleyici
   onSearchInputChange(): void {
     this.searchSubject.next(this.searchTerm);
   }

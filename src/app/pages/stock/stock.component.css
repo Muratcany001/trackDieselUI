@@ -118,6 +118,7 @@
     width: 100%;
     border-collapse: collapse;
     text-align: left;
+    color: #444;
   }
   
   .stock-table th {

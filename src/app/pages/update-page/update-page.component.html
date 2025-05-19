@@ -19,7 +19,7 @@
     <!-- Parça Adı -->
     <div class="mb-3">
       <label for="partName" class="form-label">Parça Adı</label>
-      <select id="partName" class="form-control" formControlName="partName" required>
+      <select id="partName" class="form-control" formControlName="faultyPartName" required>
         <option value="" disabled selected>Arızalı parçayı seçin</option>
         <option value="enjektör">Enjektör</option>
         <option value="Turbo">Turbo</option>
@@ -51,7 +51,7 @@
           <label for="manualPartName">Parça Adı:</label>
           <input type="text" 
                 id="manualPartName"
-                formControlName="partName"
+                formControlName="stockPartName"
                 placeholder="Parça adını giriniz"
                 (input)="onPartSearch($event)"
                 [readonly]="selectedPart !== null">

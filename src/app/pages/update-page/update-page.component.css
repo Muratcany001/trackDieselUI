@@ -69,6 +69,7 @@ form {
   font-weight: bold; /* Etiketler için bold yazı tipi */
   margin-bottom: 5px;
   display: block;
+  color: #555
 }
 
 /* Input, Select, Textarea */
@@ -134,6 +135,7 @@ button:disabled {
 
 .form-group label {
   font-weight: bold; /* Etiketler bold olacak */
+  color:#555
 }
 
 /* Responsive Tasarım */
@@ -177,6 +179,7 @@ button:disabled {
   font-weight: bold;  /* Etiketlerin kalın yazılması */
   display: block;
   margin-bottom: 10px;
+  color:#555
 }
 
 /* Hatalı durum mesajları */
@@ -264,25 +267,30 @@ input[type="number"] {
   width: 100%;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   margin-top: 5px;
+  color: #000000;
 }
 
 /* Özel scrollbar stilleri */
 .autocomplete-list::-webkit-scrollbar {
   width: 8px;
+  color: #000000;
 }
 
 .autocomplete-list::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 4px;
+  color: #000000;
 }
 
 .autocomplete-list::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 4px;
+  color: #000000;
 }
 
 .autocomplete-list::-webkit-scrollbar-thumb:hover {
   background: #555;
+  color: #000000;
 }
 
 /* Firefox için scrollbar stilleri */
@@ -298,6 +306,7 @@ input[type="number"] {
   justify-content: space-between;
   align-items: center;
   position: relative;
+  color: #000000;
 }
 
 .autocomplete-item:hover {
@@ -306,6 +315,7 @@ input[type="number"] {
 
 .part-name {
   font-weight: 500;
+  color: #000000;
 }
 
 .part-stock {
@@ -313,8 +323,8 @@ input[type="number"] {
   background: none;
   padding: 0;
   margin-left: 10px;
-  color: #666;
   font-size: 0.9em;
+  color: #000000;
 }
 
 .no-parts-message {
@@ -335,9 +345,9 @@ input[type="number"] {
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
-  color: #495057;
   font-weight: 500;
   z-index: 1;
+  color: #000000;
 }
 
 .reset-button {
@@ -423,10 +433,12 @@ input[type="number"] {
   cursor: pointer;
   border-bottom: 1px solid #e9ecef;
   transition: background-color 0.2s ease;
+  color:#000000
 }
 
 .part-selection-panel .autocomplete-item:hover {
   background-color: #f8f9fa;
+  color:#000000
 }
 
 .part-selection-panel .part-name {
