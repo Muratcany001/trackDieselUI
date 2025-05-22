@@ -12,6 +12,10 @@ interface PartWithSelection extends Part {
   selected?: boolean;
 }
 
+interface ApiResponse {
+  $values: Part[];
+}
+
 @Component({
   selector: 'app-stock',
   standalone: true,
@@ -29,6 +33,7 @@ export class StockComponent implements OnInit {
   isEditing: boolean = false;
   selectedPart: Part | null = null;
   showBulkUpdate: boolean = false;
+  isLoading: boolean = false;
 
   private searchSubject = new Subject<string>();
 
@@ -60,13 +65,27 @@ export class StockComponent implements OnInit {
   }
 
   loadParts(): void {
+    this.isLoading = true;
     this.apiService.getAllParts().subscribe({
-      next: (data) => {
-        this.parts = Array.isArray(data) ? data : [data];
-        this.parts = this.parts.map(part => ({ ...part, selected: false }));
+      next: (data: Part[] | ApiResponse) => {
+        console.log('API Response:', data);
+        if (Array.isArray(data)) {
+          this.parts = data.map(part => ({ ...part, selected: false }));
+        } else if (data && '$values' in data) {
+          this.parts = data.$values.map(part => ({ ...part, selected: false }));
+        } else {
+          this.parts = [];
+        }
         this.applyFilters();
+        this.isLoading = false;
       },
-      error: () => this.showMessage('Parçalar yüklenirken hata oluştu', 'error')
+      error: (error) => {
+        console.error('API Error:', error);
+        this.showMessage('Parçalar yüklenirken hata oluştu', 'error');
+        this.isLoading = false;
+        this.parts = [];
+        this.filteredParts = [];
+      }
     });
   }
 
@@ -193,13 +212,26 @@ export class StockComponent implements OnInit {
 
   searchParts(term: string): void {
     if (term.trim()) {
-      this.apiService.searchPartsByName(term).subscribe({
-        next: (data) => {
-          this.parts = Array.isArray(data) ? data : [data];
-          this.parts = this.parts.map(part => ({ ...part, selected: false }));
+      this.apiService.getAllParts().subscribe({
+        next: (data: Part[] | ApiResponse) => {
+          let allParts: Part[];
+          if (Array.isArray(data)) {
+            allParts = data;
+          } else if (data && '$values' in data) {
+            allParts = data.$values;
+          } else {
+            allParts = [];
+          }
+          
+          this.parts = allParts
+            .filter(part => part.name.toLowerCase().includes(term.toLowerCase()))
+            .map(part => ({ ...part, selected: false }));
           this.applyFilters();
         },
-        error: () => this.showMessage('Arama sırasında hata oluştu', 'error')
+        error: (error) => {
+          console.error('Search Error:', error);
+          this.showMessage('Arama sırasında hata oluştu', 'error');
+        }
       });
     } else {
       this.loadParts();

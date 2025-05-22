@@ -310,3 +310,82 @@
       width: 100%;
     }
   }
+
+.Info-Container {
+  margin-top: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.Info-Container .header {
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 0.5rem;
+}
+
+.Info-Container .header p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #495057;
+  margin: 0;
+}
+
+.ai-panel {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #dee2e6;
+}
+
+.problem-info-header {
+  margin-bottom: 1rem;
+}
+
+.problem-info-header p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.problem-info-panel {
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+  padding: 1rem;
+}
+
+.problem-info-panel > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.problem-info-panel > div:last-child {
+  border-bottom: none;
+}
+
+.problem-info-panel span {
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+.problem-info-panel span:first-child {
+  font-weight: 500;
+  flex: 2;
+}
+
+.problem-info-panel span:nth-child(2) {
+  flex: 1;
+  text-align: center;
+}
+
+.problem-info-panel span:last-child {
+  flex: 1;
+  text-align: right;
+}

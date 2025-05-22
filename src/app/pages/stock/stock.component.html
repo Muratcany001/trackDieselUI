@@ -56,7 +56,8 @@
     </div>
 
     <div class="table-responsive">
-      <table class="stock-table">
+      <div *ngIf="isLoading" class="loading-message">Veriler yükleniyor...</div>
+      <table class="stock-table" *ngIf="!isLoading">
         <thead>
           <tr>
             <th width="40">
@@ -76,8 +77,6 @@
             <td>{{ part.name }}</td>
             <td>{{ part.description }}</td>
             <td>{{ part.count }}</td>
-            <td>
-            </td>
             <td>
               <button class="btn action-btn edit-btn" (click)="editPart(part)">Düzenle</button>
               <button class="btn action-btn delete-btn" (click)="deletePart(part.id!)">Sil</button>
